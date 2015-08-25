@@ -19,7 +19,7 @@ output:
         + Mondays 3:30 - 4:30 pm
         + Wednesdays 1:30 - 2:30 pm
     - Eidan: TBA
-    - Nayeb: TBA
+    - Nayib: TBA
 
 - Course website: http://bit.ly/sta112_f15
 
