@@ -1,0 +1,35 @@
+.quote {
+    border: dotted 1px #4E4E4E;
+    background-color: #F2F2F2;
+    color: black;
+    padding: 20px;
+    font-style: italic;
+    font-size: 14pt;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.syntax {
+    background-color: #8ECBEA;
+    color: white;
+    padding: 20px;
+    font-family: "Courier New", Courier, monospace;
+    font-style: bold;
+    margin-bottom: 20px;
+}
+
+.question {
+    background-color: #D4E5F0;
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 16pt;
+}
+
+.app {
+    background-color: #88CE83;
+    color: white;
+    padding: 20px;
+    font-style: bold;
+    margin-bottom: 20px;
+    font-size: 16pt;
+}
