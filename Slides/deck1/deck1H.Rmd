@@ -175,13 +175,13 @@ Submit your response (one per team) on Sakai.
 
 Due **Thursday, August 27** at the beginning of class
 
-- **HW 1:** Finish the R course on Code School, submit your record of completion on Sakai under Homework 1 in Assignments
+- Finish the R course on Code School, submit your record of completion on Sakai under Homework 1 in Assignments
 
 https://www.codeschool.com/courses/try-r
 
 - Take the pretest
     - Student ID: Net ID
-    - Access code: [insert access code]
-    - Link: [insert link]
+    - Access code: VTK7227WCQ
+    - Link: https://apps3.cehd.umn.edu/artist/user/scale_select.html
 
 - Take the "getting to know you" survey on [Sakai](https://sakai.duke.edu/samigo-app/servlet/Login?id=6fa7ebf3-01af-42a6-91ba-3e813d3901221440476100743) (under Tests & Quizzes)
