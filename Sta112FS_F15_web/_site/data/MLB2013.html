@@ -1,0 +1,187 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sta 112FS - F15</title>
+
+  <link rel="stylesheet" href="/courses/Fall15/sta112.01/noita/foundation/css/normalize.css">
+  <link rel="stylesheet" href="/courses/Fall15/sta112.01/noita/foundation/css/foundation.min.css">
+  
+
+  <script src="/courses/Fall15/sta112.01/noita/foundation/js/vendor/modernizr.js"></script>
+</head>
+<body>
+
+  <div class="top-bar" data-topbar id="topbar">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="/courses/Fall15/sta112.01">Sta 112FS - Better Living Through Data Science</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon">
+        <a href="#topbar"><span>Menu</span></a>
+      </li>
+    </ul>
+    <div class="top-bar-section">
+      
+      <ul class="right">
+      
+        <li>
+          
+            <a href="/courses/Fall15/sta112.01/" class="">Schedule</a>
+          
+        </li>
+      
+        <li>
+          
+            <a href="/courses/Fall15/sta112.01/info/" class="">Info</a>
+          
+        </li>
+      
+        <li>
+          
+            <a href="/courses/Fall15/sta112.01/syllabus/" class="">Syllabus</a>
+          
+        </li>
+      
+        <li>
+          
+            <a href="/courses/Fall15/sta112.01/data/" class="">Data</a>
+          
+        </li>
+      
+        <li>
+          
+            <a href="" class="">Sakai</a>
+          
+        </li>
+      
+        <li>
+          
+            <a href="/courses/Fall15/sta112.01/idc/" class="">IDC</a>
+          
+        </li>
+      
+      </ul>
+      
+    </div>
+  </div>
+
+  <br/>
+
+  <div class="row">
+    <div class="column">
+      <h2>MLB2013.csv</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+  <div class="column">
+    <div style="padding-left:2em;">
+    <p><a href="MLB2013.csv" download="MLB2013.csv">
+[download data]
+</a></p>
+
+<p>These data were collected from http://www.baseball-reference.com by Joe Futoma and Ken McAlinn (Duke Stat Sci PhD students) as part of the Data Expeditions project sponsored by <a href="http://bigdata.duke.edu/">iiD</a>. The python code used for collecting these data can be downloaded <a href="MLB2013_script.zip" download="MLB2013_script.zip">here</a>.</p>
+
+<p>This data frame contains the following variables (columns):</p>
+
+<ul>
+  <li><code>team</code> - team name</li>
+  <li><code>opponent</code> - opposing team name</li>
+  <li><code>date</code> - data, yyyymmdd</li>
+  <li><code>header</code> - whether the game was 0 - regular game, 1 - double header (first game), 2 - double header (second game)</li>
+  <li><code>home</code> - home or away, 0 - away game, 1 - home game</li>
+  <li><code>win</code> - win/loss, 0 - loss, 1 - win</li>
+  <li><code>b_XXX</code> - batting stats
+    <ul>
+      <li><code>b_AB</code> - at bats</li>
+      <li><code>b_R</code> - runs scored</li>
+      <li><code>b_H</code> - hits</li>
+      <li><code>b_RBI</code> - runs batted in</li>
+      <li><code>b_BB</code> - bases on balls (walks)</li>
+      <li><code>b_SO</code> - strikeouts</li>
+      <li><code>b_BA</code> - batting average</li>
+      <li><code>b_OPS</code> - on-base plus slugging</li>
+      <li><code>b_Pit</code> - number of pitches</li>
+      <li><code>b_Str</code> - strikes</li>
+      <li><code>b_WPA</code> - win probability added total</li>
+      <li><code>b_aLI</code> - average leverage index (1 - average, &gt;1 - high pressure, &lt;1 - low pressure)</li>
+      <li><code>b_WPA+</code> - win probability added</li>
+      <li><code>b_WPA-</code> - win probability subtracted</li>
+      <li><code>b_RE24</code> - base-out runs added</li>
+      <li><code>b_PO</code> - putouts</li>
+      <li><code>b_A</code> - assists</li>
+      <li><code>b_2B</code> - doubles</li>
+      <li><code>b_3B</code> - triples</li>
+      <li><code>b_HR</code> - home runs</li>
+      <li><code>b_LOB</code> - left on Base</li>
+      <li><code>b_RISP</code> - runners in scoring position</li>
+      <li><code>b_avg</code> - batting average</li>
+      <li><code>b_SB</code> - stolen bases</li>
+    </ul>
+  </li>
+  <li><code>p_XXX</code> - pitching stats
+    <ul>
+      <li><code>p_IP</code> - innings pitched</li>
+      <li><code>p_H</code> - hits</li>
+      <li><code>p_R</code> - runs</li>
+      <li><code>p_ER</code> - earned runs</li>
+      <li><code>p_BB</code> - bases on balls (walks)</li>
+      <li><code>p_SO</code> - strikeouts</li>
+      <li><code>p_HR</code> - home runs</li>
+      <li><code>p_ERA</code> - earned run average</li>
+      <li><code>p_BF</code> - batters faced</li>
+      <li><code>p_Pit</code> - number of pitches</li>
+      <li><code>p_Str</code> - strikes</li>
+      <li><code>p_Ctct</code> - contact percentage</li>
+      <li><code>p_StS</code> - strikes swinging</li>
+      <li><code>p_StL</code> - strikes looking</li>
+      <li><code>p_GB</code> - ground ball</li>
+      <li><code>p_FB</code> - fly ball</li>
+      <li><code>p_LD</code> - line drive</li>
+      <li><code>p_Unk</code> - unknown</li>
+      <li><code>p_GSc</code> - game score</li>
+      <li><code>p_IR</code> - inherit runners</li>
+      <li><code>p_IS</code> - inherit scores</li>
+      <li><code>p_WPA</code> - win probability added total</li>
+      <li><code>p_aLI</code> - average leverage index</li>
+      <li><code>p_RE24</code> - base-out runs added</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You can find detailed information on what these statistics mean at http://www.baseball-reference.com/, at http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp, or elsewhere on the web.</p>
+
+<p><strong>Reference:</strong>
+“Baseball Reference.” baseball-reference.com.</p>
+
+
+    </div>
+  </div>
+</div>
+
+
+  <div class="row">
+    <div class="column">
+      <hr>
+    </div>
+    <div class="small-4 columns">
+      <p class="text-right menu-icon"><a href="#topbar">&#x25B2;</a></p>
+    </div>
+  </div>
+
+  <script src="/courses/Fall15/sta112.01/noita/foundation/js/vendor/jquery.js"></script>
+  <script src="/courses/Fall15/sta112.01/noita/foundation/js/vendor/fastclick.js"></script>
+  <script src="/courses/Fall15/sta112.01/noita/foundation/js/foundation.min.js"></script>
+  <script>$(document).foundation();</script>
+
+  
+</body>
+</html>
