@@ -1,7 +1,7 @@
 Week,Date,Topic,AppEx,Due
 Week 1,8/25/15,"Introduction <a href=""post/slides/deck1.html"">[slides]</a> <a href=""post/slides/deck1H.html"">[handout]</a>","<a href=""post/app_ex/app_Twitter_election_results.html"">Can Twitter predict election results?</a>",
-,8/27/15,Introduction to R/Rstudio and git/GitHub,,HW 1 + Survey + Pretest
-Week 2,9/1/15,Visualizing data,,
+,8/27/15,"Introduction to R/Rstudio and git/GitHub <a href=""post/slides/deck2.html"">[slides]</a> <a href=""post/slides/deck2H.html"">[handout]</a>",,HW 1 + Survey + Pretest
+Week 2,9/1/15,Visualizing data,,Read Tidy Data paper + Case studies
 ,9/3/15,Visualizing data,,
 Week 3,9/8/15,Data wrangling,,
 ,9/10/15,Data wrangling,,
