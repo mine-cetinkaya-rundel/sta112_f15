@@ -14,8 +14,11 @@ This variable should also be able to be selected from a drop down menu.
 
 #### Tips
 
-First make a static version of a plot so that you develop the `ggplot2` code. Then
+- First make a static version of a plot so that you develop the `ggplot2` code. Then
 build the app.
+
+- Feel free to use whatever code from the class demo you find is useful / relevant:
+https://github.com/mine-cetinkaya-rundel/sta112_f15/tree/master/shiny_clt
 
 ### Accessing the data
 
