@@ -1,0 +1,187 @@
+---
+title: "Sta112FS <br> Lecture 1 - Introduction"
+author: "Dr. Çetinkaya-Rundel"
+date: "August 25, 2015"
+output:
+  html_document:
+    highlight: pygments
+---
+
+# Syllabus
+
+## General info
+
+- Class: Tuesdays and Thursdays, 3:05 - 4:20pm, Old Chem 025
+
+- Office hours: 
+    - Dr. C-R: 
+        + Mondays 3:30 - 4:30 pm
+        + Wednesdays 1:30 - 2:30 pm
+    - Eidan: TBA
+    - Nayib: TBA
+
+- Course website: http://bit.ly/sta112_f15
+
+## Important dates
+
+- Midterm presentations: Thursday, Oct 8, in class
+
+- Final project presentations: Thursday, Dec 3, in class
+
+- Take home final exam due: Tuesday, Dec 8, 10pm
+
+## Grading {.smaller}
+
+- Grading breakdown:
+    - Participation \& peer evaluations - 10%
+    - Application exercises - 10%
+    - Homework - 20%
+    - Midterm project - 15%
+    - Final project - 20%
+    - Final exam - 25%
+
+- Class attendance is a firm expectation; frequent absences or tardiness 
+will be considered a legitimate cause for grade reduction.
+
+- Exact ranges for letter grades will be curved and cutoffs will be 
+determined after the final exam.
+
+- The more evidence there is that the class has mastered the material, the 
+more generous the curve will be.
+
+## Class meetings
+
+- Interactive
+
+- Learn-by-doing
+
+- Bring your laptop to class every day
+
+## Teams
+
+- Short survey and pretest to gauge your previous exposure to topics 
+relevant to the course.
+
+- Teams of 3-5 students for in-class activities and projects.
+
+## Projects
+
+- Larger computational tasks twice throughout the semester
+
+- Present findings to class
+
+- Collaborative / fully reproducible work
+
+## Final exam
+
+- Single take home final exam that you are expected to complete 
+individually.
+
+- Complete a number of computational tasks that cover the breadth of the 
+material presented in the class.
+
+## Email & Piazza
+
+- I will regularly send announcements by email, please make sure to check 
+your email daily.
+
+- Any non-personal content-related questions should be posted on Piazza.
+
+- Before posting a new question please make sure to check if your question 
+has already been answered, and answer others' questions.
+
+## Academic integrity
+
+Duke Community Standard:
+
+- I will not lie, cheat, or steal in my academic endeavors;
+
+- I will conduct myself honorably in all my endeavors; and
+
+- I will act if the Standard is compromised.
+
+## Reusing / sharing code
+
+- A huge volume of code is available on the web to solve any number of 
+problems.
+
+- Unless I explicitly tell you not to use these resource the course’s 
+policy is that you may make use of these resources (e.g. StackOverflow) 
+but you must explicitly cite where the code was obtained from in your 
+comments.
+
+- Any recycled coded that is discovered and is not explicitly cited will 
+be treated as plagiarism.
+
+- The one exception to this rule is that you may not directly share code 
+with another team in this class, you are welcome to discuss the problems 
+together and ask for advice, but you may not send or make use of code from 
+another team.
+
+## Excused absences
+
+- Students who miss graded work due to a scheduled varsity trip, religious 
+holiday or short-term illness should fill out an online NOVAP, RHoliday or 
+short-term illness form respectively.
+
+- If you cannot complete an assignment on the due date due to a short-term 
+illness, you have until noon the following day to complete it at no 
+penalty, then the regular late work policy kicks in.
+
+- If you are faced with a personal or family emergency or a long-range or 
+chronic health condition that interferes with your ability to attend or 
+complete classes, you should contact your academic dean’s office. See more 
+information on policies surrounding these conditions 
+at https://trinity.duke.edu/undergraduate/academic-policies/personal-emergencies. 
+Your academic dean can also provide more information.
+
+## Late work policy
+
+- late, but same day: -10%
+
+- late, next day: -20%
+
+- 2 days or later: no credit
+
+## Policies
+
+- Please refrain from texting or using your computer for anything other 
+than coursework during class
+
+- You must be in class on a day when you're scheduled to present, there are 
+no make ups for presentations
+
+- Regrade requests must be made within 3 days of when the assignment is 
+returned, and must be submitted in writing
+
+- Only work that is clearly assigned as team work can be completed 
+collaboratively
+
+- Use of disallowed materials during the take home exam will not be 
+tolerated
+
+# Application exercise
+
+## Can Twitter predict election results?
+
+See [course website](https://stat.duke.edu/courses/Fall15/sta112.01/) for 
+details.
+
+Submit your response (one per team) on Sakai.
+
+# Before next time...
+
+## Homework
+
+Due **Thursday, August 27** at the beginning of class
+
+- Finish the R course on Code School, submit your record of completion on Sakai under Homework 1 in Assignments
+
+https://www.codeschool.com/courses/try-r
+
+- Take the pretest
+    - Student ID: Net ID
+    - Access code: VTK7227WCQ
+    - Link: https://apps3.cehd.umn.edu/artist/user/scale_select.html
+
+- Take the "getting to know you" survey on [Sakai](https://sakai.duke.edu/samigo-app/servlet/Login?id=6fa7ebf3-01af-42a6-91ba-3e813d3901221440476100743) (under Tests & Quizzes)

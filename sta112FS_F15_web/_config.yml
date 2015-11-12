@@ -1,0 +1,30 @@
+markdown: kramdown
+exclude:
+  - LICENSE
+
+layouts: ./_noita
+baseurl: /courses/Fall15/sta112.01
+
+noita:
+  name: Sta 112FS - Better Living Through Data Science
+  description: Jekyll theme built with Foundation
+  author:
+    name: Mine Cetinkaya-Rundel
+    url: http://stat.duke.edu/~mc301/
+  lang: en
+  topbar:
+    toggle: Menu
+    right:
+      - name: Schedule
+        url: /
+      - name: Info
+        url: /info/
+      - name: Syllabus
+        url: /syllabus/
+      - name: Data
+        url: /data/ 
+      - name: Sakai
+        url: 
+        absolute: true
+      - name: IDC
+        url: /idc/

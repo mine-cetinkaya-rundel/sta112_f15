@@ -1,0 +1,313 @@
+---
+title: "Sta112FS <br> 2. Introduction to R/Rstudio and git/GitHub"
+author: "Dr. Çetinkaya-Rundel"
+date: "August 27, 2015"
+output:
+  html_document:
+    highlight: pygments
+    widescreen: yes
+---
+
+# Housekeeping
+
+## Announcements
+
+- Office hours:
+    - Dr. Çetinkaya-Rundel: 
+        - Mondays 3:30 - 5:30pm 
+        - by appointment
+    - Nayib: Tuesdays 5-6pm - Wilson 3rd Floor common room
+    - Gloria: Wednesdays 5-6pm - Wilson 3rd Floor common room
+
+## Today's agenda
+
+- Introduction to tools for reproducible data analysis
+
+# Reproducibility: who cares?
+
+## Science retracts gay marriage paper without agreement of lead author LaCour
+
+- In May 2015 Science retracted a study of how canvassers can sway 
+people's opinions about gay marriage published just 5 months ago.
+
+- Science Editor-in-Chief Marcia McNutt: Original survey data not made 
+available for independent reproduction of results. + Survey incentives 
+misrepresented. + Sponsorship statement false.
+
+- Two Berkeley grad students who attempted to replicate the study 
+quickly discovered that the data must have been faked.
+
+- Methods we'll discuss today can't prevent this, but they can make it 
+easier to discover issues.
+
+Source: http://news.sciencemag.org/policy/2015/05/science-retracts-gay-marriage-paper-without-lead-author-s-consent
+
+
+## Seizure study retracted after authors realize data got "terribly mixed"
+
+From the authors of **Low Dose Lidocaine for Refractory Seizures in 
+Preterm Neonates**:
+
+*"The article has been retracted at the request of the authors. After 
+carefully re-examining the data presented in the article, they identified 
+that data of two different hospitals got terribly mixed. The published 
+results cannot be reproduced in accordance with scientific and clinical 
+correctness."*
+
+Source: http://retractionwatch.com/2013/02/01/seizure-study-retracted-after-authors-realize-data-got-terribly-mixed/
+
+
+## Bad spreadsheet merge kills depression paper, quick fix resurrects it
+
+- The authors informed the journal that the merge of lab results and other 
+survey data used in the paper resulted in an error regarding the 
+identification codes. Results of the analyses were based on the data set 
+in which this error occurred. Further analyses established the results 
+reported in this manuscript and interpretation of the data are not correct.
+
+- **Original conclusion:** Lower levels of CSF IL-6 were associated with 
+current depression and with future depression [...].
+
+- **Revised conclusion:** Higher levels of CSF IL-6 and IL-8 were 
+associated with current depression [...].
+
+Source: http://retractionwatch.com/2014/07/01/bad-spreadsheet-merge-kills-depression-paper-quick-fix-resurrects-it/
+
+
+# Reproducibility: why should we care?
+
+## Two-pronged approach
+
+<div class="columns-2">
+\#1 
+Convince researchers to adopt a reproducible research workflow
+
+<br><br>
+
+\#2
+Train new researchers who don’t have any other workflow
+
+![two prongs](two-pronged-fork.jpg)
+
+</div>
+
+## Reproducible data analysis
+
+- Scriptability $\rightarrow$ R
+
+- Literate programming $\rightarrow$ R Markdown
+
+- Version control $\rightarrow$ Git / GitHub
+
+# Scripting and literate programming 
+
+## Donald Knuth "Literate Programming (1983)"
+
+"Let us change our traditional attitude to the construction of programs: 
+Instead of imagining that our main task is to instruct a *computer- what 
+to do, let us concentrate rather on explaining to *human beings- what we 
+want a computer to do."
+
+- These ideas have been around for years!
+- and tools for putting them to practice have also been around
+- but they have never been as accessible as the current tools
+
+
+## Reproducibility checklist
+
+- Are the tables and figures reproducible from the code and data?
+- Does the code actually do what you think it does?
+- In addition to what was done, is it clear **why** it was done? 
+(e.g., how were parameter settings chosen?)
+- Can the code be used for other data?
+- Can you extend the code to do other things?
+
+# Toolkit
+
+## Toolkit
+
+<center>
+![toolkit](toolkit.png)
+</center>
+
+# Demo
+
+## Logging on to RStudio
+
+- Go to gort.stat.duke.edu:8787
+
+- Log on with your Net ID and password
+
+## Live R/RStudio demo
+
+- R as a calculator
+
+```{r}
+2 + 2
+factorial(20)
+```
+
+- Working with variables
+
+```{r}
+x <- 2
+x * 3
+```
+
+## Working with GitHub
+
+- Create a GitHub account at https://github.com/
+    - This will be a public account associated with your name
+    - Choose a username wisely for future use
+    - Don't worry about details, you can fill them in later
+    
+- Create a repository called `intro_demo` 
+    - Give a brief and informative description
+    - Choose "Public"
+    - Check the box for "Initialize this repository with a README"
+    - Click "Create Repository"
+
+## Cloning the repository
+
+- Go to RStudio
+
+- File -> New Project
+    - Version Control: Checkout a project from a version control 
+    repository
+    - Git: Clone a project from a repository
+    - Fill in the info:
+        - URL: use HTTPS address
+        - Create as a subdirectory of: Browse and create a new folder 
+        call sta112
+        
+- Note for the future: Each course component you work on (an application 
+exercise, a homework assignment, project, exam, etc.) should be its own 
+repository, and should be fully contained in a folder inside the folder 
+`sta112`.
+
+## Merge conflicts
+
+- On GitHub (on the web) edit the README document and `Commit` it with a 
+message describing what you did.
+
+- Then, in RStudio also edit the README document with a different change.
+    - Commit your changes
+    - Try to push -- you'll get an error!
+    - Try pulling
+    - Resolve the merge conflict and then commit and push
+    
+- As you work in teams you will run into merge conflicts, learning how
+to resolve them properly will be very important.
+
+
+# Documenting and reporting
+
+## R Markdown 
+
+- Fully reproducible reports
+
+- Simple markdown syntax for text
+
+- Code goes in chunks
+
+**Tip:** Keep the Markdown cheat sheet handy, we'll refer to it often
+as the course progresses.
+
+[Live demo -- follow along]
+
+# On to data analysis
+
+## Task
+
+Visualize relationship between life expectancy and GDP per capita in
+2007 in countries. Also make a plot 
+
+## Step 0: Load necessary packages
+
+Packages are the fundamental units of reproducible R code. They include 
+reusable R functions, the documentation that describes how to use them, 
+and sample data.
+
+- In the following exercises we'll use `dplyr` (for data wrangling) and 
+`ggplot2` (for visualization) packages.
+
+- Load these packages in your markdown file
+
+```{r message=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+## Step 1: Load data
+
+```{r}
+gapminder <- read.csv("https://stat.duke.edu/~mc301/data/gapminder.csv")
+```
+
+## Step 2: Subset data
+
+- Start with the `gapminder` dataset
+
+- Filter for cases (rows) where year is equal to 2007
+
+- Save this new subsetted dataset as `gap07`
+
+```{r}
+gap07 <- gapminder %>%
+  filter(year == 2007)
+```
+
+
+## Step 2: Explore and visualize
+
+**Task:** Visualize the relationship between `gdpPercap` and `lifeExp`.
+
+```{r, fig.height=4, fig.width=7}
+qplot(x = gdpPercap, y = lifeExp, data = gap07)
+```
+
+## Step 3: Dig deeper
+
+**Task:** Color the points by continent.
+
+```{r, fig.height=4, fig.width=7}
+qplot(x = gdpPercap, y = lifeExp, color = continent, data = gap07)
+```
+
+## Step 3: Commit and push all changes
+
+- Stage
+
+- Commit (with a message)
+
+- Push
+
+# What's next?
+
+## Update your analysis
+
+What if you wanted to now change your analysis 
+
+- to subset for 1952
+
+- plot life expectancy (`lifeExp`) vs. population (`pop`)
+
+- and size the points by GPD (`gpdPercap`)
+    - hint: add argument `size = gpdPercap` to your plotting code
+
+Once you're done, commit and push all your changes with a meaningful
+message.
+
+# Homework
+
+## Homework
+
+- Read the following reproducibility case studies:
+    - http://news.sciencemag.org/policy/2015/05/science-retracts-gay-marriage-paper-without-lead-author-s-consent
+    - http://retractionwatch.com/2013/02/01/seizure-study-retracted-after-authors-realize-data-got-terribly-mixed/
+    - http://retractionwatch.com/2014/07/01/bad-spreadsheet-merge-kills-depression-paper-quick-fix-resurrects-it/
+    
+- Read the following paper:
+    - Hadley Wickham. "Tidy data". *Journal of Statistical Software.*
+    August 2014, Volume 59, Issue 10.
+    http://www.jstatsoft.org/v59/i10/paper

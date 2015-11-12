@@ -1,0 +1,68 @@
+---
+title: "Sta112FS <br> 10. Modeling recap"
+author: "Dr. Çetinkaya-Rundel"
+date: "September 29, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 90)
+```
+
+# Today's agenda
+
+## Today's agenda
+
+- Modeling recap
+    - Focus on interpreting slopes in multiple regression models
+   
+- Continue App Ex 5: Forward selection (finish in class)
+
+- [Time permitting] Review App Ex 5
+
+- **Due Thursday:**
+    - Start midterm project -- at a minimum load data and start reviewing codebook
+    - Review peer evaluations and schedule a time to meet with me as a team (details
+    will be emailed)
+
+# Modeling recap
+
+## Parameter interpretation
+
+- Slope:
+    - Categorical vs. numerical explanatory variable: change vs. difference
+    - Simple vs. multiple linear regression: "all else held constant"
+
+- Intercept:
+    - May be an extrapolation
+    - May not be meaningful in context of the data
+    
+## Model fit
+
+- $R^2$: % of variability in %y% explained by the model
+
+- Adjusted $R^2$: used for model selection
+    - Adjusted for sample size and number of explanatory variables
+    
+## Model selection
+
+- Backwards: start with full model, take one variable at a time and 
+maximize adjusted $R^2$
+
+- Forwards: start with the single variable yielding the highest adjusted
+$R^2$, add one variable at a time and maximize adjusted $R^2$
+
+- If interaction is included, main effects must be included as well
+    
+# App Ex
+
+## Continue App Ex 5
+
+- Same task/set of variables as before, do forward selection instead
+
+- 15 mins/team visit with me
+

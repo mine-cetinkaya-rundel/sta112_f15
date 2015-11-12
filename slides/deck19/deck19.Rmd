@@ -1,0 +1,50 @@
+---
+title: "Sta112FS <br> 19. Interactive visualizations in R"
+author: "Dr. Çetinkaya-Rundel"
+date: "November 12, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+```
+
+# Today's agenda
+
+## Today's agenda {.smaller}
+
+- Interactive visualizations with R live demo
+
+- **Due Tuesday:** App Ex 10
+
+# Inferactive visualizations in R
+
+## Interactive visualizations
+
+- `shiny`: what we're learning today
+
+- `ggvis`: currently in active development
+
+## Shiny
+
+- `ui.R`: User interface script
+    + controls the layout and appearance of your app
+    + lots of new `shiny` syntax
+
+- `server.R`: Server script
+    + contains the instructions that your computer needs to build your app
+    + mostly R code, some new `shiny` syntax for interactivity
+
+## Disclaimer
+
+![shining](shining.png)
+
+## Live demo
+
+Stay focused!
