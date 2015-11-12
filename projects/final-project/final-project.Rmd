@@ -1,0 +1,161 @@
+---
+title: "Final Project - Showcase your inner data scientist"
+output:
+  html_document:
+    css: ../project.css
+    highlight: pygments
+    theme: cerulean
+  pdf_document: default
+---
+
+Pick a dataset, any dataset...
+
+...and do something with it. That is your final project in a nutshell. More details below.
+
+### Background
+
+The final project for this class will consist of a statistical analysis on a dataset of your own choosing. The dataset may already exist, or you may collect your own data using a survey or by conducting an experiment. If possible, choose a dataset which you are interested in and may be useful for another class project or your research if you are working in a lab. The goal of this project is for you to demonstrate proficiency in the techniques we have covered in this class and apply them to a novel dataset in a meaningful way.
+
+### Data
+
+In order for you to have the greatest chance of success with this project it is important that you choose a manageable dataset. This means that the data should be readily accessible and large enough that multiple relationships can be explored. As such, your dataset must have at least 50 observations and between 10 to 20 variables (exceptions can be made but you must speak with me first). The dataset’s variables should include categorical variables, discrete numerical variables, and continuous numerical variables.
+
+All analyses must be done in RStudio. If you are using a dataset that comes in a format that we haven't encountered in class, make sure that you are able to load it into RStudio as this can be tricky depending on the source. If you are having trouble ask for help before it is too late.
+
+*Reusing datasets from class:* Do not reuse datasets used in examples / homework in the
+class.
+
+### Project Proposal - due Nov 20 at 5pm
+
+By Nov 20 you must turn in a draft of the introduction section of your project. This introduction
+should introduce your general research question (this should include your hypothesized answer) and
+your data (where it came from, how it was collected, what are the cases, what are the variables, etc.).
+
+The proposal should also include a short data analysis plan as well as your dataset.
+
+The data analysis plan should include:
+
+1. The comparison groups you will use, if applicable.
+2. The outcome (dependent, response, Y) and predictor (independent, explanatory, X) variables you will 
+use to answer your question.
+3. The statistical method(s) that you believe will be useful in answering your question(s). (You can 
+update these later as you work on your project.)
+4. What results from these specific statistical methods are needed to support your hypothesized answer?
+
+The introduction should be no more than 1 page (excluding figures) and the data analysis plan should
+also be no more than 1 page. Your write up and all typesetting must be done with using R Markdown. 
+
+### Project - due December 3
+
+After providing the description of your dataset and research question in the introduction you must apply 
+what you have learned about descriptive statistics, visualizations, correlation and regression, and 
+inference (hypothesis testing and confidence intervals) to your dataset. The goal is not to do an 
+exhaustive data analysis i.e., do not calculate every statistic and procedure you have learned for every 
+variable, but rather let me know that you are proficient at using R, and that you are proficient at 
+interpreting and presenting the results. Focus on methods that help you begin to answer your research 
+questions. Also pay attention to your presentation. Neatness, coherency, and clarity will count.
+
+### Presentation - due December 3
+
+10 minutes maximum, and each team member should say something substantial.
+
+You can use any software you like for your final presentation. (Remember that you can create slides using 
+R Markdown as well.) There isn't a limit to how many slides you can use, just a time limit (10 minutes 
+total). Each team member should get a chance to speak during the presentation. Your presentation should 
+not just be an account of everything you tried ("then we did this, then we did this, etc."), instead it 
+should convey what choices you made, and why, and what you found.
+
+### Delivarables:
+
+Your submission should include
+
+* RMarkdown file (formated to clearly present all of your code and results) 
+* HTML file
+* Dataset (in csv or RData format)
+* Presentation
+
+Style and format does count for this assignment, so please take the time to make sure everything looks 
+good and your data and code are properly formated.
+
+### Further details
+
+#### Visualizations: 
+
+The project is very open ended. You should create somekind of compelling visualization(s) of this data 
+in R. There is no limit on what tools or packages you may use. Remember that there are many different 
+ways to plot in R (e.g. base graphics, ggplot, etc.) and there are many additional packages that are 
+focused for specific types of data and visualization tasks. See [here](http://docs.ggplot2.org/current/), [here](http://www.statmethods.net/graphs/index.html) and [here](http://www.statmethods.net/advstats/index.html) for brief introductions to some of R’s 
+visualization capabilities. You can even create [interactive graphics](http://ggvis.rstudio.com/), or [webapps](http://shiny.rstudio.com/) using R. You do not need to visualize all of the data at once. A 
+single high quality visualization will receive a much higher grade than a large number of poor quality 
+visualizations.
+
+Your write up must also include a one to two page conclusion and discussion. This will require a summary 
+of what you have learned about your research question along with statistical arguments supporting your 
+conclusions. Also critique your own methods and provide suggestions for improving your analysis. Issues 
+pertaining to the reliability and validity of your data, and appropriateness of the statistical analysis 
+should be discussed here. A paragraph on what you would do differently if you were able to start over 
+with the project or what you would do next if you were going to continue work on the project should also 
+be included.
+
+#### Code:
+
+In your write up your code should be hidden (`echo = FALSE`) so that your document is neat and easy to 
+read. However your document should include all your code such that if I re-knit your Rmd file I should be 
+able to obtain the results you presented.
+
+**Exception:** If you want to highlight something specific about a piece of code, you're welcomed to show 
+that portion. 
+
+For this class I will not enforce any particular coding style, however it is important that the code you 
+and your team produces is readable and consistent in its formating. There are several R style guides 
+online, e.g. from [Google](https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml) and from [Hadley Wickham](http://r-pkgs.had.co.nz/style.html). As a group you should decide on what conventions you will 
+use and the entire team should conform to them as much as possible.
+
+#### Teamwork:
+
+You are to complete the assignment as a team. All team members are expected to contribute equally to the 
+completion of this assignment and group assessments will be given at its completion - anyone judged to 
+not have sufficient contributed to the final product will have their grade penalized. While different 
+teams members may have different backgrounds and abilities, it is the responsibility of every team member 
+to understand how and why all code and approaches in the assignment works.
+
+### Grading
+
+Your grade will be based 
+
+- 40% on presentation, 
+- 40% on write up, 
+- 10% on classmates' grades, and
+- 10% on team peer evaluations. 
+
+**Team peer evaluation:** You will be asked to fill out a survey where you rate the contribution of each 
+team member out of 10 points. Filling our the survey is a prerequisite for getting credit on the team 
+member evaluation. For grades less than 6, please provide some explanation. If any individual gets an 
+average peer grade less than 2.5, this person will receive half the grade of the rest of the group.
+
+Grading of the project will take into account the following:
+
+- Content - What is the quality of research and/or policy question and relevancy of data to those
+questions?
+- Correctness - Are statistical procedures carried out and explained correctly?
+- Writing and Presentation - What is the quality of the statistical presentation, writing, and 
+explanations?
+- Creativity and Critical Thought - Is the project carefully thought out? Are the limitations carefully 
+considered? Does it appear that time and effort went into the planning and implementation of the project?
+
+A general breakdown of scoring is as follows:
+
+- 90%-100% - Outstanding effort. Student understands how to apply all statistical concepts, can put the 
+results into a cogent argument, can identify weaknesses in the argument, and can clearly communicate the 
+results to others.
+- 80%-89% - Good effort. Student understands most of the concepts, puts together an adequate argument, 
+identifies some weaknesses of their argument, and communicates most results clearly to others.
+- 70%-79% - Passing effort. Student has misunderstanding of concepts in several areas, has some trouble 
+putting results together in a cogent argument, and communication of results is sometimes unclear.
+- 60%-69% - Struggling effort. Student is making some effort, but has misunderstanding of many concepts 
+and is unable to put together a cogent argument. Communication of results is unclear.
+- Below 60% - Student is not making a sufficient effort.
+
+If you score less 30% on the project you cannot pass this course, and late projects
+are applied a 10% per day penalty.
+
