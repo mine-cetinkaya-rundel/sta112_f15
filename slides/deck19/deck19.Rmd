@@ -48,3 +48,5 @@ library(gridExtra)
 ## Live demo
 
 Stay focused!
+
+and learn more at http://shiny.rstudio.com/
