@@ -1,0 +1,316 @@
+---
+title: "HW 1: Diamonds"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+    css: ../hw.css
+---
+
+## Instructions
+
+1. There is a GitHub repo you have been invited to
+    - located in the [organization](https://github.com/Sta112FS-Fall2015) for this class
+    - name contains HW 1 and your name
+    
+Clone this repo in your local directory on `gort`. (Remember, the 
+address is http://gort.stat.duke.edu:8787/.)
+
+2. Edit the README.md to include some relevant information about the
+repository, commit, and push. (This is just to check everything
+is working fine, and you know what you're doing.)
+
+3. Open a new R Markdown file, name it the same name as your repository,
+and save it.
+
+4. Include answers to all exercises in your R Markdown file. Your
+answers should always include any summary and/or plot you use to answer
+that particular question.
+
+## Diamonds
+
+The `diamonds` dataset that we will use in this application exercise 
+consists of prices and quality information from about 54,000 diamonds, 
+and is included in the `ggplot2` package. 
+
+Since you already installed the `ggplot2` and `dplyr` libraries last 
+time, you don't need to install them again. However each time you 
+launch R you need to load the packages:
+
+```{r message = FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+To familiarize yourself with the dataset you can view the help file 
+associated with it, or open up the dataset in the data viewer. To do
+so, run the following commands in the Console.
+
+```{r eval = FALSE}
+?diamonds
+View(diamonds)
+```
+
+Another function that you'll use very useful for quickly taking a peek 
+at a dataset is `str`. This function compactly displays the internal 
+**str**ucture of an R object.
+
+```{r}
+str(diamonds)
+```
+
+The output above tells us that there are 53,940 observations and 10 
+variables in the dataset. The variable name are listed, along with 
+their type and the first few observations of each variable. **Note:** R 
+calls categorical variables `factor`s.
+
+### More about the dataset
+
+The dataset contains information on prices of diamonds, as well as 
+various attributes of diamonds, some of which are known to influence 
+their price (in 2008 $s): the 4 Cs (`carat`, `cut`, `color`, and 
+`clarity`) , as well as some physical measurements (`depth`, `table`, 
+`price`, `x`, `y`, and `z`). The figure below shows what these 
+measurements represent.  
+
+![diamond_measurements](diamond_measurements.png)
+
+Carat is a unit of mass equal to 200 mg and is used for measuring 
+gemstones and pearls. Cut grade is is an objective measure of a 
+diamond's light performance, or, what we generally think of as sparkle.
+
+The figures below shows color grading of diamonds:
+
+![diamond_colors](diamond_colors.png)
+<br><br>
+
+Lastly, the figure below shows clarity grading of diamonds:
+
+![diamond_clarity](diamond_clarity.png)
+<br><br>
+
+### Exploring variables individually
+
+In the next section we will explore and visualize the distributions of 
+the variables in this dataset individual. This type of analysis is also 
+called **univariate analysis**.
+
+First we should say a few words about classifying variables:
+
+- **Numerical variables** can be classified as **continuous** or 
+**discrete** based on whether or not the variable can take on an 
+infinite number of values or only non-negative whole numbers, 
+respectively. 
+- If the variable is **categorical**, we can determine if it is 
+**ordinal** based on whether or not the levels have a natural ordering.
+
+#### Exploring numerical data
+
+When describing shapes of numerical distributions we highlight:
+
+- shape:
+    - right-skewed, left-skewed, symmetric (skew is to the side of the 
+    longer tail)
+    - unimodal, bimodal, multimodal, uniform
+- center: mean (`mean`), median (`median`), mode (not always useful)
+    - spead: range (`range`), standard deviation (`sd`), inter-quartile 
+    range (`IQR`)
+    - unusal observations
+
+<div class="question">
+**Exercise 1:** What type of variable is price? Would you expect its 
+distribution to be symmetric, right-skewed, or left-skewed? Why?
+</div>
+
+<div class="question">
+**Exercise 2:** Make a histogram of the distribution of diamond prices.
+Does the shape of the distribution match your expectation?
+Hint: Use `geom_histogram()`. See http://docs.ggplot2.org/current/geom_histogram.html for help.
+</div>
+
+Note that along with the plot, R printed out a warning for you:
+```
+stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust 
+this.
+```
+
+<div class="question">
+**Exercise 3:** Try out a few other bin widths by adding the `binwidth` 
+argument to the plot, until you find a bin width that's too narrow and 
+one that is too wide to produce a meaningful histogram.**
+</div>
+
+Earlier we learned about **aesthetics** and **facets**, which were 
+attributes mapped to certain variables in the dataset. Unlike these, 
+the argment `binwidth` is simply a **parameter** input that controls 
+the appearance of the graph, but does not map appearance to data. Most 
+parameters come with a default value, and different geoms use different 
+aesthetics and parameters.
+
+<div class="question">
+**Exercise 4:** Visualize the other numerical variables in the dataset 
+and discuss any interesting features.**
+</div>
+
+When describing distributions of numerical variables we might also want 
+to view statistics like mean, median, etc. (Functions for these are 
+provided above, try a few.)
+```{r eval = FALSE}
+diamonds %>%
+  summarise(mean = mean(price), sd = sd(price), median = median(price))
+```
+
+#### Exploring categorical data
+
+We can also summarize `cut`s of diamonds. Since this is a categorical 
+variable we use tables. To create the table, first group by the
+**levels** of the cut variable, and then summarize the counts of
+diamonds in each level.
+
+- Frequency table:
+```{r eval = FALSE}
+diamonds %>%
+  group_by(cut) %>%
+  summarise(counts = n())
+```
+
+- Proportions table: Here we divide the counts in each level by
+the number of rows (observations) in the diamonds variable:
+```{r eval = FALSE}
+diamonds %>%
+  group_by(cut) %>%
+  summarise(counts = n() / nrow(diamonds))
+```
+
+<div class="question">
+**Exercise 5:** What type of variable is color? Are all colors of 
+diamonds (shown in the figure above) represented in the dataset? Which
+color is most prominently represented in the dataset?
+</div>
+
+A useful representation for categorical variables is a **bar plot**.
+
+```{r eval=FALSE}
+ggplot(data = diamonds, aes(x = color)) +
+  geom_bar()
+```
+
+<div class="question">
+**Exercise 6:** Make a bar plot of the distribution of `cut`, and 
+describe its distribution.
+</div>
+
+### Bivariate relationships
+
+Now that we are familiar with the individual variables in the dataset, we can start evaluating relationships between them.
+
+#### Adding another variable to a histogram
+
+Let's make a histogram of the `depth`s of diamonds, with binwidth of 
+0.2%, and adding another variable (say, `cut`) to the visualization.
+We can do this either using an aesthetic or a facet:
+
+- Using aesthetics: Use different colors to fill in for different cuts.
+```{r eval=FALSE}
+ggplot(data = diamonds, aes(x = depth, fill = cut)) +
+  geom_histogram(binwidth = 0.2)
+```
+
+- Using facets: Split into different plots for different cuts.
+```{r eval=FALSE}
+ggplot(data = diamonds, aes(x = depth)) +
+  geom_histogram(binwidth = 0.2) +
+  facet_wrap(~ cut)
+```
+
+<div class="question">
+**Exercise 7:** Typical diamonds of which cut have the highest depth? 
+On average, does depth increase or decrease as cut grade increase or 
+decrease?
+</div>
+
+<div class="question">
+**Exercise 8:** Compare the distribution of price for the different 
+cuts. Does anything seem unusual? Describe.
+</div>
+
+### More on plotting options
+
+#### Position adjustments
+
+Another parameter that can be passed to `qplot` is `position`. The options are 
+
+* `position = "identity"`: Don't adjust position
+* `position = "dodge"`: Adjust position by dodging overlaps to the side
+* `position = "fill"`: Stack overlapping objects on top of one another, and standardise for comparable proportions across categories
+* `position = "stack"`: Stack overlapping objects on top of one another
+* `position = "jitter"`: Jitter points to avoid overplotting
+
+<div class="question">
+**Exercise 9:** First to recreate the following plot:
+```{r echo=FALSE, fig.height=3}
+ggplot(data = diamonds, aes(x = color, fill = cut)) +
+  geom_bar()
+```
+and then add position definitions to the `geom_bar` (e.g.) 
+`geom_bar(position = "dodge")` and describe what you see. Note that 
+not all options will work for categorical variables.
+</div>
+
+Next, let's plot the relationship between price and carat for 
+only diamonds with a `Fair` cut grading.
+
+```{r eval=FALSE}
+fair_diamonds <- diamonds %>%
+  filter(cut == "Fair")
+ggplot(data = fair_diamonds, aes(x = price, y = carat)) +
+  geom_point()
+ggplot(data = fair_diamonds, aes(x = price, y = carat)) +
+  geom_point(position = "jitter")
+```
+
+<div class="question">
+**Exercise 10:** Create a subset of diamonds that cost less than or 
+equal to $1,000 (`<=`), and plot the relationship between price and 
+carat with and without jittering. Do the plots look the same or 
+different. What does this mean?
+</div>
+
+#### Zooming
+
+You can also adjust the limits of your axes to zoom in on certain portions of the distribution.
+
+Run the two following pieces of code to see how this option works:
+```{r eval = FALSE}
+ggplot(data = diamonds, aes(x = carat, y = price)) +
+  geom_point()
+ggplot(data = diamonds, aes(x = carat, y = price)) +
+  geom_point() +
+  ylim(0, 2000) +
+  xlim(0, 1)
+```
+
+<div class="question">
+**Exercise 11:** Describe the relationship between price and carat of
+diamonds.
+</div>
+
+### Further exploration
+
+<div class="question">
+**Exercise 12:** Explore the distribution of carat. What can you see? 
+What might explain that pattern? What carat weights are most common? 
+Make sure to experiment with bin width!
+</div>
+
+<div class="question">
+**Exercise 13:** Look again at the relationship between price and 
+carat. What do the data clustered in vertical lines in the plot tell us?
+</div>
+
+<div class="question">
+**Exercise 14:** Write down two questions that you could answer with 
+these data, and use appropriate visualizations and summary statistics 
+to answer them. Make sure at least one of these requires using multiple 
+variables (through aesthetics and/or facets) at once. Be creative!
+</div>

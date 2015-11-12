@@ -1,0 +1,4 @@
+- questions should be meaningful and about the data
+- use of the word "significant" should be reserved to statistical significance
+- make sure to be making the right plots for the right variable types
+- using the word skewness in talking about categorical variables doesn't make sense

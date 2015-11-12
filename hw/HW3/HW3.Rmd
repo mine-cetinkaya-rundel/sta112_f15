@@ -1,0 +1,136 @@
+---
+title: "HW 3 - "
+output:
+  html_document:
+    highlight: pygments
+    theme: flatly
+    css: ../hw.css
+---
+
+```{r opts, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## Instructions
+
+1. Start with your repo for this assignment
+    - located at [organization](https://github.com/Sta112FS-Fall2015) for this class
+    - name contains HW 3 and your name
+    
+Clone this repo in your local directory on `gort`. (Remember, the 
+address is http://gort.stat.duke.edu:8787/.)
+
+2. Edit the README.md to include some relevant information about the
+repository, commit, and push. (This is just to check everything
+is working fine, and you know what you're doing.)
+
+3. Open a new R Markdown file, name it the same name as your repository,
+and save it.
+
+4. Include answers to all exercises in your R Markdown file. Your
+answers should always include any summary and/or plot you use to answer
+that particular question.
+
+## Tasks
+
+### Part 1: Sampling distribution of the sample proportion
+
+1. Load the following dataset:
+
+```{r}
+pops <- read.csv("https://stat.duke.edu/~mc301/data/cat_pops.csv")
+```
+
+Assume each column of this dataset represents a categorical population, with levels
+`success` and `failure.
+
+2. Create sampling distributions of sample proportions from samples of the 
+following sizes:
+
+    - $n = 10$
+    - $n = 50$
+    - $n = 200$
+
+Use 15,000 samples.
+
+Note that sampling distributions are created by taking random samples, with
+replacement, from the original population.
+
+Make histograms and normal probability plots of these distributions.
+
+3. Describe the shapes of these distributions, and calculate the centers (mean) 
+and the spreads (standard deviation). Compare these to shapes, centers, of spreads 
+of parent population distributions from (1).
+
+### Part 2: Inference
+
+Load the data from the 2010 General Social Survey:
+
+```{r}
+gss <- read.csv("https://stat.duke.edu/~mc301/data/gss2010.csv", stringsAsFactors = FALSE)
+```
+
+Remember that the data dictionary can be found at  https://gssdataexplorer.norc.org/variables/vfilter.
+
+For each of the questions below, make sure to check whether conditions for inference
+have been met and show all your work. Complete each exercise two ways: 
+
+- using R as a calculator, and
+- using the relevant R functions
+
+1. **Working extra:** Do these data provide convincing evidece that Americans work extra 
+hours beyond their usual schedule more than 5 days per month on average? Evaluate at the 
+5% significance level. Also construct a confidence interval, at the equivalent level,
+estimating the average number of days per month Americans work extra hours beyond
+their usual schedule. Interpret both results in context of the data and the research
+question, and comment on whether your findings from the hypothesis test and confidence
+interval agree. The variable of interest is `moredays`.
+
+2. **Working extra and education:** Do the average number of days Americans work extra
+hours beyond their usual schedule vary between those with and without a college degree?
+The variable of interest here is `degree` which has 5 levels: graduate, bachelor, junior 
+college, high school, and less than high school.
+
+    - First, combine levels to make this a binary variable with levels college and no 
+    college. College contains junior college, bachelor, and graduate, and no college 
+    contains the remaining levels.
+    - Then, run the relevant hypothesis test (at 5% significance level), and also estimate
+    the difference between the two population means at the equivalent confidence level. 
+    Interpret all results in context of the data and the research question, and comment 
+    on whether your findings from the hypothesis test and confidenceinterval agree.
+
+3. **Life after death:** Estimate the proportion of Americans who believe in a life after 
+death using a 95% confidence interval. The variable of interest is called `postlife` in 
+the dataset. Calculate the interval two ways: using a CLT theorem based approach as well 
+as using bootstrapping. Interpret the interval in context of the data, and comment on 
+whether or not the two intervals you calculate match. (They may not be exactly the same, 
+but they should be close. You can re-use old bootstrapping code, but this is an 
+opportunity to review and revise your code if needed.)
+
+4. **Pick your own:** Pick two categorical variables from the dataset, identify one as 
+the explanatory and the other as the response variable. Make sure that these variables 
+each only have two levels, or combine their levels into two levels. Then, compare
+population proportions across the two groups of your explanatory variable using both
+a confidence interval and a hypothesis test. As always, interpret all results in context 
+of the data and the research question, and comment on whether your findings from the 
+hypothesis test and confidenceinterval agree.
+
+### Part 3: Extra credit
+
+Trace metals in drinking water affect the flavor and an unusually high concentration can 
+pose a health hazard. Ten pairs of data were taken measuring zinc concentration in bottom 
+water and surface water at 10 randomly sampled locations. We want to evaluate whether the 
+true average concentration in the bottom water **exceeds** that of surface water? 
+Note that water samples collected at the same location, on the surface and in the bottom, 
+cannot be assumed to be independent of each other, hence we must treat these data as 
+**paired**. In working with paired data, first take the difference between the two 
+measurements at each location (create a new column called `diff` and store these values
+there, as $bottom - surface$). Then, evaluate the hypothesis that the 
+true average concentration in the bottom water **exceeds** that of surface water. Note
+that you can now treat your `diff` variable as the signle variable of interest.
+
+The data can be loaded as follows:
+
+```{r}
+zinc <- read.csv("https://stat.duke.edu/~mc301/data/zinc.csv", stringsAsFactors = FALSE)
+```
