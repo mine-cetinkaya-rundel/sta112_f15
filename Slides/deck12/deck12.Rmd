@@ -1,0 +1,324 @@
+---
+title: "Sta112FS <br> 12. Simulation based inference"
+author: "Dr. Çetinkaya-Rundel"
+date: "October 15, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 90)
+#knitr::opts_chunk$set(cache = TRUE)
+```
+
+# Today's agenda
+
+## Today's agenda
+
+- New teams! (I'll need team names ASAP)
+
+- Introduction to inference via simulations
+
+- **Due Tuesday:** 
+    - Read Chapter 2, Sections 2.1 - 2.4 of [Introductory Statistics
+with Randomization and Simulation](http://openintro.org/isrs)
+    - App Ex
+
+# Inference
+
+## Organ donors
+
+People providing an organ for donation sometimes seek the help of a special "medical 
+consultant". These consultants assist the patient in all aspects of the surgery, with 
+the goal of reducing the possibility of complications during the medical procedure and 
+recovery. Patients might choose a consultant based in part on the historical 
+complication rate of the consultant's clients. 
+
+One consultant tried to attract patients by noting that the average complication rate 
+for liver donor surgeries in the US is about 10%, but her clients have only had 3 
+complications in the 62 liver donor surgeries she has facilitated. She claims this is 
+strong evidence that her work meaningfully contributes to reducing complications (and 
+therefore she should be hired!).
+
+## Parameter vs. statistic
+
+A **parameter** for a hypothesis test is the "true" value of interest. We typically 
+estimate the parameter using a **sample statistic** as a **point estimate**.
+
+$p$: true rate of complication
+
+$\hat{p}$: rate of complication in the sample = $\frac{3}{62}$ = 
+`r (p_hat = round(3/62,3))`
+
+## Correlation vs. causation
+
+<div class="question">
+Is it possible to assess the consultant’s claim using the data?
+</div>
+
+No. The claim is that there is a causal connection, but the data are observational.
+For example, maybe patients who can afford a medical consultant can afford better
+medical care, which can also lead to a lower complication rate.
+
+While it is not possible to assess the causal claim, it is still possible to test for an
+association using these data. For this question we ask, could the low complication
+rate of $\hat{p}$ = `r p_hat` be due to chance?
+
+## Two claims
+
+- **Null hypothesis:** "There is nothing going on"
+
+Complication rate for this consultant is no different than the US average of 10%
+
+- **Alternative hypothesis:** "There is something going on"
+
+Complication rate for this consultant is **lower** than the US average of 10%
+
+## Hypothesis testing as a court trial
+
+- **Null hypothesis**, $H_0$: Defendant is innocent
+
+- **Alternative hypothesis**, $H_A$: Defendant is guilty
+
+- **Present the evidence:** Collect data
+
+- **Judge the evidence:** "Could these data plausibly have happened by chance if the null hypothesis were true?"
+    * Yes: Fail to reject $H_0$
+    * No: Reject $H_0$
+    
+## Hypothesis testing framework
+
+- Start with a null hypothesis ($H_0$) that represents the status quo
+
+- Set an alternative hypothesis ($H_A$) that represents the research question, i.e. what 
+we’re testing for
+
+- Conduct a hypothesis test under the assumption that the null hypothesis is true and 
+calculate a **p-value** (probability of observed or more extreme outcome given that the 
+null hypothesis is true)
+    - if the test results suggest that the data do not provide convincing evidence for 
+    the alternative hypothesis, stick with the null hypothesis
+    - if they do, then reject the null hypothesis in favor of the alternative
+
+## Setting the hypotheses
+
+<div class="question">
+Which of the following is the correct set of hypotheses?
+</div>
+
+<ol type="a">
+<li> $H_0: p = 0.10$; $H_A: p \ne 0.10$
+<li> $H_0: p = 0.10$; $H_A: p > 0.10$
+<li> $H_0: p = 0.10$; $H_A: p < 0.10$
+<li> $H_0: \hat{p} = 0.10$; $H_A: \hat{p} \ne 0.10$
+<li> $H_0: \hat{p} = 0.10$; $H_A: \hat{p} > 0.10$
+<li> $H_0: \hat{p} = 0.10$; $H_A: \hat{p} < 0.10$
+</ol>
+
+## Simulating the null distribution
+
+- Since $H_0: p = 0.10$, we need to simulate a null distribution where the 
+probability of success (complication) for each trial (patient) is 0.10.
+
+<div class="question">
+Describe how you would simulate the null distribution for this study using a bag of 
+chips. How many chips? What colors? What do the colors indicate? How many draws? 
+**With replacement** or **without replacement**?
+</div>
+
+## What do we expect?
+
+<div class="question">
+When sampling from the null distribution, what is the expected proportion of success 
+(complications)?
+</div>
+
+## Set-up
+
+```{r}
+set.seed(9)
+library(ggplot2)
+```
+
+## Simulation #1
+
+```{r}
+# create sample space
+outcomes <- c("complication", "no complication")
+
+# draw the first sample of size 62 from the null distribution
+sim1 <- sample(outcomes, size = 62, prob = c(0.1, 0.9), replace = TRUE)
+
+# view the sample
+table(sim1)
+
+# calculate the simulated sample proportion of complications (red chips)
+(p_hat_sim1 <- sum(sim1 == "complication") / length(sim1))
+```
+
+## Recording and plotting {.smaller}
+
+```{r message = FALSE, warning= FALSE, fig.height = 3, fig.width = 5}
+# create an empty data frame
+sim_dist <- data.frame(p_hat_sim = rep(NA, 100))
+
+# record the simulated p-hat as the first observation
+sim_dist$p_hat_sim[1] <- p_hat_sim1
+
+# plot
+ggplot(sim_dist, aes(x = p_hat_sim)) + 
+  geom_dotplot() + 
+  xlim(0, 0.26) + ylim(0, 10)
+```
+
+## Simulation #2 {.smaller}
+
+```{r message = FALSE, warning= FALSE, fig.height = 3, fig.width = 5}
+sim2 <- sample(outcomes, size = 62, prob = c(0.1, 0.9), replace = TRUE)
+
+(p_hat_sim2 <- sum(sim2 == "complication") / length(sim2))
+
+sim_dist$p_hat_sim[2] <- p_hat_sim2
+
+ggplot(sim_dist, aes(x = p_hat_sim)) + 
+  geom_dotplot() + 
+  xlim(0,0.26) + ylim(0,10)
+```
+
+## Simulation #3 {.smaller}
+
+
+```{r message = FALSE, warning= FALSE, fig.height = 3, fig.width = 5}
+sim3 <- sample(outcomes, size = 62, prob = c(0.1, 0.9), replace = TRUE)
+
+(p_hat_sim3 <- sum(sim3 == "complication") / length(sim3))
+
+sim_dist$p_hat_sim[3] <- p_hat_sim3
+
+ggplot(sim_dist, aes(x = p_hat_sim)) + 
+  geom_dotplot() + 
+  xlim(0,0.26) + ylim(0,10)
+```
+
+## This is getting boring...
+
+We need a way to automate this process!
+
+# Simple Looping
+
+## `for` loops
+
+Simplest, and most common type of loop in R - iterate through the elements of a vector and evaluate the code block for each.
+
+```{r}
+for(x in 1:10)
+{
+  cat(x^2," ", sep="") # cat: concatenate and print
+}
+```
+
+```{r}
+for(y in list(1:3, LETTERS[1:7], c(TRUE,FALSE)))
+{
+  cat(length(y)," ",sep="")
+}
+```
+
+## Storing results {.smaller}
+
+Almost always it is better to create an object to store your results first, rather than growing the object as you go.
+
+```{r}
+# Good
+res <- rep(NA,10)
+for(x in 1:10)
+{
+  res[x] <- x^2
+}
+res
+
+# Bad
+res <- c()
+for (x in 1:10)
+{
+  res <- c(res,x^2)
+}
+res
+```
+
+# Back to inference
+
+## Using loops to create the null distribution
+
+- Earlier we simulated each iteration one-by-one and showed how we would fill in each element
+of `sim_dist$p_hat_sim`.
+
+- Using for loops we can automate this process
+
+## Simulating the null distribution with a `for` loop {.smaller}
+
+```{r message = FALSE, warning= FALSE, fig.height = 3, fig.width = 5}
+sim_dist <- data.frame(p_hat_sim = rep(NA, 100))
+for (i in 1:100){
+  sim <- sample(outcomes, size = 62, prob = c(0.1, 0.9), replace = TRUE)
+  p_hat_sim <- sum(sim == "complication") / length(sim)
+  sim_dist$p_hat_sim[i] <- p_hat_sim
+}
+
+ggplot(sim_dist, aes(x = p_hat_sim)) + 
+  geom_dotplot()
+```
+
+## Calculating the p-value
+
+Remember **p-value** is probability of observed or more extreme outcome given that the 
+null hypothesis is true.
+
+<div class="question">
+What is the p-value, i.e. in what % of the simulations was the simulated $\hat{p}$ was at least
+as extreme as the observed $\hat{p}$ of `r p_hat`?
+</div>
+
+```{r echo=FALSE, message = FALSE, warning= FALSE, fig.height = 3, fig.width = 5}
+ggplot(sim_dist, aes(x = p_hat_sim)) + 
+  geom_dotplot()
+```
+
+## Significance level
+
+We often use 5% as the cutoff for whether the p-value is low enough that the data are 
+unlikely to have come from the null model. This cutoff value is called the 
+**significance level** ($\alpha$).
+
+- If p-value < $\alpha$, reject $H_0$ in favor of $H_A$: The data provide convincing 
+evidence for the alternative hypothesis.
+
+- If p-value > $\alpha$, fail to reject $H_0$ in favor of $H_A$: The data do not provide 
+convincing evidence for the alternative hypothesis.
+
+## Conclusion
+
+<div class="question">
+What is the conclusion of the hypothesis test?
+</div>
+
+Since the p-value is greater than the significance level, we fail to 
+reject the null hypothesis. These data do not provide convincing evidence that this 
+consultant incurs a lower complication rate than 10% (overall US complication rate).
+
+## Let's get real
+
+- 100 simulations is not sufficient
+
+- We usually simulate around 15,000 times to get an accurate distribution
+
+# Application Exercise
+
+## App Ex 6 - Inference for a proportion
+
+in your new teams!
+
+See course website for details.

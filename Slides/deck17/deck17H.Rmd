@@ -1,0 +1,391 @@
+---
+title: "Sta112FS <br> 17. CLT based inference, Pt. 2"
+author: "Dr. Çetinkaya-Rundel"
+date: "November 5, 2015"
+output:
+  html_document:
+    highlight: pygments
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+```
+
+```{r echo=FALSE}
+qqline_params <- function(x){
+  y <- quantile(x[!is.na(x)], c(0.25, 0.75))
+  x <- qnorm(c(0.25, 0.75))
+  slope <- diff(y) / diff(x)
+  int <- y[1L] - slope * x[1L]
+  return(list(slope = slope, int = int))
+}
+```
+
+
+# Today's agenda
+
+## Today's agenda {.smaller}
+
+- CLT
+
+- Inference for a mean
+
+- Inference for difference in two means
+
+- **Due Thursday:** HW 3 (will be emailed after class)
+
+# Central Limit Theorem
+
+## In practice...
+
+- We can't construct sampling distributions directly, because we don't have access
+to the entire population data
+    - this is the whole point of statistical inference: observe only one
+    sample, try to make inference about the entire population
+    
+- Hence we rely on the **Central Limit Theorem** to tell us what the sampling
+distribution would look like, if we could construct it
+
+## Central Limit Theorem
+
+If certain conditions are met, the sampling distribution of the sample statistic
+will be nearly normally distributed with mean equal to the population parameter
+and standard error equal inversely proportional to the sample size.
+
+- **Single mean:** $\bar{x} \sim N\left(mean = \mu, SE = \frac{\sigma}{\sqrt{n}}\right)$
+- **Difference between two means:** $(\bar{x}_1 - \bar{x}_2) \sim N\left(mean = (\mu_1 - \mu_2), SE = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} \right)$
+- **Single proportion:** $\hat{p} \sim N\left(mean = p, SE = \sqrt{\frac{p (1-p)}{n}} \right)$
+- **Difference between two proportions:** $(\hat{p}_1 - \hat{p}_2) \sim N\left(mean = (p_1 - p_2), SE = \sqrt{\frac{p_1 (1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}} \right)$
+
+## Conditions:
+
+- **Independence:** The sampled observations must be independent. This is difficult to check, but the following are useful guidelines:
+    - the sample must be random
+    - if sampling without replacement, sample size must be less than 10% of population size
+    
+- **Sample size / distribution:** 
+    - numerical data: The more skewed the sample (and hence the population)
+    distribution, the larger samples we need. Usually n > 30 is considered a 
+    large enough sample for population distributions that are not extremely skewed.
+    - categorical data: At least 10 successes and 10 failures.
+
+- If comparing two populations, the samples must be independent of each other,
+and all conditions should be checked for both groups.
+
+# Inference methods based on CLT
+
+## Inference methods based on CLT
+
+If necessary conditions are met, we can also use inference methods based on the CLT:
+
+- use the CLT to calculate the SE of the sample statistic of interest (sample mean, 
+sample proportion, difference between sample means, etc.)
+
+- calculate the **test statistic**, number of standard errors away from the null 
+value the observed sample statistic is
+    - T for means, along with appropriate degrees of freedom
+    - Z for proportions
+
+- use the test statistic to calculte the **p-value**, the probability of an observed 
+or more extreme outcome given that the null hypothesis is true
+
+# Z and T distributions
+
+## Z distribution {.smaller}
+
+- Also called the **standard normal distribution**: $Z \sim N(mean = 0, \sigma = 1)$
+
+- Finding probabilities under the normal curve:
+```{r}
+pnorm(-1.96)
+pnorm(1.96, lower.tail = FALSE)
+```
+
+- Finding cutoff values under the normal curve:
+```{r}
+qnorm(0.025)
+qnorm(0.975)
+```
+
+## T distribution
+
+- Also unimodal and symmetric, and centered at 0
+
+- Thicker tails than the normal distribution (to make up for additional variability
+introduced by using $s$ instead of $\sigma$ in calculation of the SE)
+
+- Parameter: **degrees of freedom**
+    - df for single mean: $df = n - 1$
+    - df for comparing two means: $df = min(n_1 - 1, n_2 - 1)$
+    
+## T distribution (cont.)
+
+- Finding probabilities under the t curve:
+```{r}
+pt(-1.96, df = 9)
+pt(1.96, df = 9, lower.tail = FALSE)
+```
+
+- Finding cutoff values under the normal curve:
+```{r}
+qt(0.025, df = 9)
+qt(0.975, df = 9)
+```
+
+# Examples
+
+## General Social Survey
+
+- Since 1972, the General Social Survey (GSS) has been monitoring societal change and 
+studying the growing complexity of American society. 
+
+- The GSS aims to gather data on contemporary American society in order to 
+    - monitor and explain trends and constants in attitudes, behaviors, attributes;
+    - examine the structure and functioning of society in general as well as the role
+    played by relevant subgroups;
+    - compare the US to other societies to place American society  in comparative 
+    perspective and develop cross-national models of human society;
+    - make high-quality data easily accessible to scholars, students, policy makers, 
+    and others, with minimal cost and waiting.
+
+- GSS questions cover a diverse range of issues including national spending priorities, 
+marijuana use, crime and punishment, race relations, quality of life, confidence in 
+institutions, and sexual behavior.
+
+## Data
+
+2010 GSS:
+```{r}
+gss <- read.csv("https://stat.duke.edu/~mc301/data/gss2010.csv")
+```
+
+<br>
+
+- Data dictionary at https://gssdataexplorer.norc.org/variables/vfilter
+
+- Note that not all questions are asked every year
+
+
+# Inference for a single mean
+
+## Hypothesis testing for a mean {.smaller}
+
+<div class="question">
+One of the questions on the survey is "After an average work day, about how many 
+hours do you have to relax or pursue activities that you enjoy?". Do these data
+provide convincing evidence that Americans, on average, spend more than 3 hours
+per day relaxing? Note that the variable of interest in the dataset is `hrsrelax`.
+</div>
+
+```{r fig.height=2.5, fig.width=5}
+gss %>% filter(!is.na(hrsrelax)) %>%
+  summarise(mean(hrsrelax), median(hrsrelax), sd(hrsrelax), length(hrsrelax))
+ggplot(data = gss, aes(x = hrsrelax)) + geom_histogram(binwidth = 1)
+```
+
+## Hypotheses {.build}
+
+<div class="question">
+What are the hypotheses for evaluation Americans, on average, spend more than 3 hours
+per day relaxing?
+</div>
+
+$$H_0: \mu = 3$$ 
+$$H_A: \mu > 3$$
+
+## Conditions {.build}
+
+1. Independence: The GSS uses a reasonably random sample, and the sample
+size of 1,154 is less than 10% of the US population, so we can assume that the
+respondents in this sample are independent of each other.
+
+2. Sample size / skew: The distribution of hours relaxed is right skewed, however
+the sample size is large enough for the sampling distribution to be nearly
+normal.
+
+## Calculating the test statistic {.build}
+
+$$\bar{x} \sim N\left(mean = \mu, SE = \frac{s}{\sqrt{n}}\right)$$
+$$T_{df} = \frac{obs - null}{SE}$$
+$$df = n - 1$$
+
+```{r fig.height=3, fig.width=5}
+# summary stats
+hrsrelax_summ <- gss %>% 
+  filter(!is.na(hrsrelax)) %>%
+  summarise(xbar = mean(hrsrelax), s = sd(hrsrelax), n = length(hrsrelax))
+```
+
+```{r}
+# calculations
+se <- hrsrelax_summ$s / sqrt(hrsrelax_summ$n)
+t <- (hrsrelax_summ$xbar - 3) / se
+df <- hrsrelax_summ$n - 1
+```
+
+## p-value
+
+p-value = P(observed or more extreme outcome | $H_0$ true)
+
+```{r}
+pt(t, df, lower.tail = FALSE)
+```
+
+
+## Conclusion
+
+- Since the p-value is small, we reject $H_0$.
+
+- The data provide convincing evidence that Americans, on average, spend more than
+3 hours per day relaxing after work.
+
+<div class="question">
+Would you expect a 90% confidence interval for the average number of hours Americans 
+spend relaxing after work to include 3 hours?
+</div>
+
+## Confidence interval for a mean
+
+$$point~estimate \pm critical~value \times SE$$
+
+```{r}
+t_star <- qt(0.95, df)
+pt_est <- hrsrelax_summ$xbar
+round(pt_est + c(-1,1) * t_star * se, 2)
+```
+
+<div class="question">
+Interpret this interval in context of the data.
+</div>
+
+## In R {.smaller}
+
+```{r}
+# HT
+t.test(gss$hrsrelax, mu = 3, alternative = "greater")
+
+# CI
+t.test(gss$hrsrelax, conf.level = 0.90)$conf.int
+```
+
+
+# Aside: confidence vs. significance levels
+
+## Equivalency of confidence and significance levels
+
+- Two sided alternative HT with $\alpha$ $\rightarrow$ $CL = 1 - \alpha$
+- One sided alternative HT with $\alpha$ $\rightarrow$ $CL = 1 - (2 times \alpha)$
+
+```{r echo = FALSE, message=FALSE, fig.width=10, fig.height=4}
+library(openintro)
+par(mfrow = c(1,2))
+normTail(U = 1.96, L = -1.96, df = df, col = "#56B4E9")
+text(x = 0, y = 0.15, "0.95", col = "#56B4E9", cex = 2)
+text(x = -3, y = 0.05, "0.025", col = "#56B4E9", cex = 1.5)
+text(x = 3, y = 0.05, "0.025", col = "#56B4E9", cex = 1.5)
+#
+normTail(U = 1.65, L = -1.65, df = df, col = "#56B4E9")
+normTail(U = 1.65, df = df, col = "gray", add = TRUE)
+text(x = 0, y = 0.15, "0.90", col = "#56B4E9", cex = 2)
+text(x = -3, y = 0.05, "0.05", col = "#56B4E9", cex = 1.5)
+text(x = 3, y = 0.05, "0.05", col = "gray", cex = 1.5)
+```
+
+# Inference for difference of two means
+
+## Hypothesis testing for a difference of two means {.build}
+
+<div class="question">
+Is there a difference between the average number of hours relaxing after work between
+males and females. What are the hypotheses?
+</div>
+
+$$H_0: \mu_{M} = \mu_{F}$$
+$$H_A: \mu_{M} \ne \mu_{F}$$
+
+Note that the variable identifying males and females in the dataset is `sex`.
+
+## Exploratory analysis {.build}
+
+<div class="question">
+What type of visualization would be appropriate for evaluating this research question?
+</div>
+
+```{r fig.height=4, fig.width=8, echo=FALSE}
+ggplot(data = gss, aes(x = hrsrelax)) +
+  geom_histogram(binwidth = 1) +
+  facet_grid(sex ~ .)
+```
+
+## Summary statistics
+
+```{r fig.height=3, fig.width=5}
+hrsrelax_sex_summ <- gss %>% 
+  filter(!is.na(hrsrelax)) %>%
+  group_by(sex) %>%
+  summarise(xbar = mean(hrsrelax), s = sd(hrsrelax), n = length(hrsrelax))
+hrsrelax_sex_summ
+```
+
+## Calculating the test statistic {.build}
+
+$$(\bar{x}_1 - \bar{x}_2) \sim N\left(mean = (\mu_1 - \mu_2), SE = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} \right)$$
+$$T_{df} = \frac{obs - null}{SE}$$
+$$df = min(n_1 - 1, n_2 - 1)$$
+
+```{r}
+se <- sqrt((hrsrelax_sex_summ$s[1]^2 / hrsrelax_sex_summ$n[1]) 
+           + (hrsrelax_sex_summ$s[2]^2 / hrsrelax_sex_summ$n[2]))
+t <- ((hrsrelax_sex_summ$xbar[1] - hrsrelax_sex_summ$xbar[2]) - 0) / se
+df <- min(hrsrelax_sex_summ$n[1], hrsrelax_sex_summ$n[2]) - 1
+```
+
+## p-value
+
+p-value = P(observed or more extreme outcome | $H_0$ true)
+
+```{r}
+pt(t, df) * 2
+```
+
+<div class="question">
+Assuming $\alpha = 0.05$, what is the conclusion of the hypothesis test?
+</div>
+
+## Equivalency to a confidence interval
+
+<div class="question">
+What is the equivalent confidence level to this hypothesis test? At this level would
+you expect a confidence interval to include the difference in average number of
+hours relaxed by all American males and females?
+</div>
+
+## Confidence interval for a difference in means
+
+$$point~estimate \pm critical~value \times SE$$
+
+```{r}
+t_star <- qt(0.975, df)
+pt_est <- hrsrelax_sex_summ$xbar[1] - hrsrelax_sex_summ$xbar[2]
+round(pt_est + c(-1,1) * t_star * se, 2)
+```
+
+<div class="question">
+Interpret this interval in context of the data. Make sure to indicate which group has
+a higher/lower mean in your interpretation.
+</div>
+
+## In R  {.smaller}
+
+Note that `t.test` function uses an exact degrees of freedom formula.
+
+```{r}
+# HT
+t.test(gss$hrsrelax ~ gss$sex, mu = 0, alternative = "two.sided")
+
+# CI
+t.test(gss$hrsrelax ~ gss$sex)$conf.int
+```

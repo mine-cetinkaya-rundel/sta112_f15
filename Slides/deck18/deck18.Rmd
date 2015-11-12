@@ -1,0 +1,403 @@
+---
+title: "Sta112FS <br> 18. CLT based inference, Pt. 3"
+author: "Dr. Çetinkaya-Rundel"
+date: "November 10, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+```
+
+```{r echo=FALSE}
+qqline_params <- function(x){
+  y <- quantile(x[!is.na(x)], c(0.25, 0.75))
+  x <- qnorm(c(0.25, 0.75))
+  slope <- diff(y) / diff(x)
+  int <- y[1L] - slope * x[1L]
+  return(list(slope = slope, int = int))
+}
+```
+
+
+# Today's agenda
+
+## Today's agenda {.smaller}
+
+- Inference for a proportion
+
+- Inference for difference in two proportions
+
+- Inference for regression
+
+- Testing errors
+
+- **Due Thursday:** HW 3
+
+# Inference for a proportion
+
+## Data
+
+2010 GSS:
+```{r}
+gss <- read.csv("https://stat.duke.edu/~mc301/data/gss2010.csv")
+```
+
+<br>
+
+- Data dictionary at https://gssdataexplorer.norc.org/variables/vfilter
+
+- Note that not all questions are asked every year
+
+## Hypothesis testing for a proportion {.build}
+
+<div class="question">
+Another question on the survey is "Do you think the use of marijuana should be made legal 
+or not?". Do these data convincing evidence that majority of Americans think that the use 
+of marijuana should **not** be legal? Note that the variable of interest in the dataset 
+is `grass`.
+</div>
+
+```{r}
+grass_summ <- gss %>%
+  filter(!is.na(grass)) %>%
+  summarise(x = sum(grass == "NOT LEGAL"), n = length(grass), p_hat = x / n)
+grass_summ
+```
+
+<div class="question">
+What are the hypotheses?
+</div>
+
+Let $p$ represent people who do **not** think marijuana should be legalized.
+
+$$H_0: p = 0.5$$
+$$H_A: p > 0.5$$
+
+## Calculating the test statistic {.build}
+
+$$\hat{p} \sim N\left(mean = p, SE = \sqrt{\frac{p (1-p)}{n}} \right)$$
+$$Z = \frac{obs - null}{SE}$$
+
+```{r}
+se <- sqrt(0.5 * 0.5 / grass_summ$n)
+(z <- (grass_summ$p_hat - 0.5) / se)
+```
+
+## p-value
+
+p-value = P(observed or more extreme outcome | $H_0$ true)
+
+```{r}
+pnorm(z, lower.tail = FALSE)
+```
+
+<div class="question">
+Assuming $\alpha = 0.05$, what is the conclusion of the hypothesis test?
+</div>
+
+## Equivalency to a confidence interval
+
+<div class="question">
+What is the equivalent confidence level to this hypothesis test? At this level would
+you expect a confidence interval to include the null value?
+</div>
+
+## Confidence interval for a proportion
+
+$$point~estimate \pm critical~value \times SE$$
+
+```{r}
+z_star <- qnorm(0.95)
+se <- sqrt(0.52 * (1 - 0.52) / grass_summ$n)
+pt_est <- grass_summ$p_hat
+round(pt_est + c(-1,1) * z_star * se, 3)
+```
+
+<div class="question">
+Interpret this interval in context of the data. Does your confidence interval agree with 
+the result of the hypothesis test?
+</div>
+
+## In R  {.smaller}
+
+Note that `prop.test` function uses a different (equivalent) distribution.
+
+```{r}
+# HT
+prop.test(grass_summ$x, grass_summ$n, p = 0.5, alternative = "greater", correct = FALSE)
+
+# CI
+prop.test(grass_summ$x, grass_summ$n, correct = FALSE, conf.level = 0.90)$conf.int
+```
+
+# Inference for a difference in two proportions
+
+## Hypothesis test for a difference in two proportions
+
+<div class="question">
+Is there a difference between the proportions of people who think marijuana should 
+**not** be legalized based on whether they favor or oppose a law which would require a 
+person to obtain a police permit before he or she could buy a gun?
+</div>
+
+Let $p$ represent people who do **not** think marijuana should be legalized.
+
+$$H_0: p_{pro\_gunlaw} = p_{anti\_gunlaw}$$
+$$H_A: p_{pro\_gunlaw} \ne p_{anti\_gunlaw}$$
+
+Note that the variable identifying people who are pro and anti gun laws in the dataset is `gunlaw`.
+
+## Exploratory analysis {.build}
+
+<div class="question">
+What type of visualization would be appropriate for evaluating this research question?
+</div>
+
+```{r fig.height=4, fig.width=8, echo=FALSE}
+gss_gun_grss <- gss %>%
+  filter(!is.na(grass), !is.na(gunlaw))
+ggplot(data = gss_gun_grss, aes(x = gunlaw, fill = grass)) +
+  geom_bar(position = "fill")
+```
+
+## Summary statistics
+
+```{r fig.height=3, fig.width=5}
+gss_gun_grss_summ <- gss_gun_grss %>% 
+  group_by(gunlaw) %>%
+  summarise(x = sum(grass == "NOT LEGAL"), n = length(grass), p_hat = x / n)
+gss_gun_grss_summ
+```
+
+## Calculating the test statistic {.build}
+
+$$(\hat{p}_1 - \hat{p}_2) \sim N\left(mean = (p_1 - p_2), SE = \sqrt{ \frac{p_1 (1 - p_1)}{n_1} + \frac{p_2 (1 - p_2)}{n_2} } \right)$$
+$$Z = \frac{obs - null}{SE}$$
+
+## Standard error under the null
+
+<div class="question">
+We need to find a reasonable value for $p_1$ and $p_2$ that are equal to each other, 
+and that make sense in the context of these data?
+</div>
+
+## Pooled proportion
+
+```{r}
+total_suc <- sum(gss_gun_grss_summ$x)
+total_n <- sum(gss_gun_grss_summ$n)
+(p_pool <- total_suc / total_n)
+```
+
+## Calculating the test statistic
+
+```{r}
+se <- sqrt( (p_pool * (1-p_pool))/gss_gun_grss_summ$n[1] + 
+              (p_pool * (1-p_pool))/gss_gun_grss_summ$n[2] )
+(z <- ((gss_gun_grss_summ$p_hat[1] - gss_gun_grss_summ$p_hat[2]) - 0) / se)
+```
+
+## p-value
+
+p-value = P(observed or more extreme outcome | $H_0$ true)
+
+```{r}
+pnorm(z, lower.tail= FALSE) * 2
+```
+
+<div class="question">
+Assuming $\alpha = 0.05$, what is the conclusion of the hypothesis test?
+</div>
+
+## Confidence interval
+
+<div class="question">
+What is the equivalent confidence level to this hypothesis test? At this level would
+you expect a confidence interval to include 0?
+</div>
+
+## Confidence interval for a difference in proportions
+
+$$point~estimate \pm critical~value \times SE$$
+
+The only difference is that SE is calculated using the sample proportions, and not
+the pooled proportion.
+
+## In R  {.smaller}
+
+```{r}
+prop.test(x = c(gss_gun_grss_summ$x[1], gss_gun_grss_summ$x[2]),
+          n = c(gss_gun_grss_summ$n[1], gss_gun_grss_summ$n[2]), correct = FALSE)
+```
+
+
+# Recap
+
+## Recap
+
+- We now have been introduced to both simulation based and CLT based methods for 
+statistical inference.
+
+- For most simulation based methods you wrote your own code, for CLT based methods 
+we introduced some built in functions.
+
+- Take away message: If certain conditions are met CLT based methods may be used for 
+statistical inference. To do so, we would need to know how the standard error is 
+calculated for the given sample statistic of interest.
+
+- What you should know:
+    - What does standard error mean?
+    - What does the p-value mean?
+    - How do we make decisions based on the p-value?
+    
+## in R {.smaller}
+
+- numerical data - `t.test`
+    - testing for one mean: $H_0: \mu_x = \mu_0$
+    - comparing two means (groups `1` and `2`): $H_0: \mu_1 = \mu_2$
+
+- categorical data - `prop.test`
+    - testing for one proportion: $H_0: p_x = p_0$
+    - comparing two proportions (groups `1` and `2`): $H_0: p_1 = p_2$
+    
+# Inference for regression
+
+## Test your vocabulary
+
+The GSS gives the following 10 question vocabulary test:
+
+1. SPACE (school, noon, captain, room, board, don’t know)
+2. BROADEN (efface, make level, elapse, embroider, widen, don’t know)
+3. EMANATE (populate, free, prominent, rival, come, don’t know)
+4. EDIBLE (auspicious, eligible, fit to eat, sagacious, able to speak, don’t know)
+5. ANIMOSITY (hatred, animation, disobedience, diversity, friendship, don’t know)
+6. PACT (puissance, remonstrance, agreement, skillet, pressure, don’t know)
+7. CLOISTERED (miniature, bunched, arched, malady, secluded, don’t know)
+8. CAPRICE (value, a star, grimace, whim, inducement, don’t know)
+9. ACCUSTOM (disappoint, customary, encounter, get used to, business, don’t know)
+10. ALLUSION (reference, dream, eulogy, illusion, aria, don’t know)
+
+## Distribution of scores on vocabulary test
+
+The variable of interest is `wordsum`:
+
+```{r fig.height = 4}
+ggplot(data = gss, aes(x = wordsum)) +
+  geom_histogram(binwidth = 1) 
+```
+
+## Inference for regression with single predictor {.smaller}
+
+Number of words correct in a vocabulary test (0 - 10) vs. age:
+
+```{r}
+vocab_age <- lm(wordsum ~ age, data = gss)
+summary(vocab_age)
+```
+
+## Hypothesis test for a slope
+
+$H_0: \beta_{age} = 0$, Slope of age is 0
+
+$H_A: \beta_{age} \ne 0$, Slope of age is different than 0
+
+p-value = 1.88e-05 $\rightarrow$ Reject $H_0$ at 5% significance level.
+
+The data provide convincing evidence that the slope of age is different than 0
+for predicting score on vocabulary test.
+
+## Confidence interval for a slope
+
+```{r}
+confint(vocab_age, level = 0.95)
+```
+
+We are 95% confident that for each year a person is older their vocabulary score
+is expected to be higher, on average, by 0.0073 to 0.0196 points.
+
+## Inference for regression with multiple predictors {.smaller}
+
+Number of words correct in a vocabulary test (0 - 10) vs. age + unemployed over the last
+10 years:
+
+```{r}
+vocab_age_unemp <- lm(wordsum ~ age + unemp, data = gss)
+summary(vocab_age_unemp)
+```
+
+## Hypothesis test for multiple slopes {.build}
+
+**Age:**
+
+$H_0: \beta_{age} = 0$, Slope of age is 0, given that unemployment is in the model
+$H_A: \beta_{age} \ne 0$, Slope of age is not 0, given that unemployment is in the model
+
+p-value = 9.64e-05 $\rightarrow$ Reject $H_0$ at 5% significance level. The data provide 
+convincing evidence that the slope of age is different than 0 for predicting score on 
+vocabulary test, given that unemployment is in the model.
+
+**Unemployment:**
+
+$H_0: \beta_{unempYES} = 0$, Slope of unemployment is 0, given that age is in the model \\
+$H_A: \beta_{unempYES} \ne 0$, Slope of unemployment is not 0, given that age is in the model
+
+p-value = 0.777 $\rightarrow$ Fail to reject $H_0$ at 5% significance level. The data do 
+not provide convincing evidence that the slope of unemployment is different than 0 for 
+predicting score on vocabulary test, given that age is in the model.
+
+## Confidence interval multiple slopes {.build}
+
+```{r}
+confint(vocab_age_unemp, level = 0.95)
+```
+
+All else held constant (i.e. given no change in unemployment status), we are 95% 
+confident that for each year a person is older their vocabulary score is expected to be 
+higher, on average, by 0.0091 to 0.0274 points.
+
+<div class="question">
+Interpret the confidence interval for the slope of unemployment.
+</div>
+
+## What else can we do with these p-values?
+
+Model selection based on p-value method:
+
+- Backwards elimination: Remove the variable with the highest p-value, re-fit, 
+repeat until all variables are significant at the chosen significance level.
+- Forward selection: Start with the variable with the lowest p-value, re-fit,
+repeat until all no more significant variables left at the chosen sigificance level.
+
+This is used in literature, but is not really recommended!
+
+- Relies on arbitraty significance level cutoff
+- Multiple testing!
+
+Instead use adjusted $R^2$, or AIC, or other crieterion based model selection.
+
+# Testing errors
+
+## Testing errors
+
+- Type 1: Reject $H_0$ when you shouldn't have
+    + P(Type 1 error) = $\alpha$
+    
+- Type 2: Fail to reject $H_0$ when you should have
+    + P(Type 2 error) is harder to calculate, but increases as $\alpha$ decreases
+
+<div class="question">
+In a court of law
+
+$H_0$: Defendant is innocent
+
+$H_A$: Defendant is guilty
+
+Which is worse: Type 1 or Type 2 error?
+</div>

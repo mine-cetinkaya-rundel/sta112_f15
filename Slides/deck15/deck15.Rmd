@@ -1,0 +1,216 @@
+---
+title: "Sta112FS <br> 15. Wrap up one var inf + Testing for independence"
+author: "Dr. Çetinkaya-Rundel"
+date: "October 27, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+# Today's agenda
+
+## Today's agenda {.smaller}
+
+- Wrap up one variable inference
+
+- Testing for independence
+
+- Get started on App Ex 8
+
+# Wrap up one variable inference
+
+## Rent in Durham {.smaller}
+
+Data from a random sample of 20 1+ bedroom apartments in Durham in 2012.
+
+```{r load-data}
+durham_apts <- read.csv("https://stat.duke.edu/~mc301/data/durham_apts.csv")
+```
+
+## Exploratory analysis
+
+```{r plot-data, fig.height=3, fig.width=5, message = FALSE}
+ggplot(data = durham_apts, aes(x = rent)) +
+  geom_dotplot()
+durham_apts %>%
+  summarise(xbar = mean(rent), med = median(rent))
+```
+
+## Load helper functions
+
+```{r load-one-num-funcs}
+source("https://stat.duke.edu/courses/Fall15/sta112.01/code/one_num_boot.R")
+source("https://stat.duke.edu/courses/Fall15/sta112.01/code/one_num_test.R")
+```
+
+## Bootstrap CI for mean rent in Durham
+
+<div class="question">
+Estimate the average rent in Durham for 1+ bedroom apartments using a 95% confidence interval.
+</div>
+
+```{r rent-mean-ci, fig.height=3, fig.width=5}
+one_num_boot(durham_apts$rent, statistic = mean, seed = 195729)
+```
+
+## Bootstrap CI for median rent in Durham
+
+<div class="question">
+Estimate the median rent in Durham for 1+ bedroom apartments using a 95% confidence interval.
+</div>
+
+```{r rent-med-ci, fig.height=3, fig.width=5}
+one_num_boot(durham_apts$rent, statistic = median, seed = 571035)
+```
+
+## Bootstrap testing for a mean
+
+- Construct the bootstrap distribution
+
+- Shift it to be centered at the null value
+
+- Calculate the p-value as usual: observed or more extreme outcome (more extreme in the 
+direction of the null hypothesis) given that the null value is true
+
+## Bootstrap test for average rent in Durham
+
+<div class="question">
+Do these data provide convincing evidence that the average rent in Durham for 1+ bedroom
+apartments is greater than $800?
+</div>
+
+```{r rent-mean-ht, fig.height=3, fig.width=5}
+one_num_test(durham_apts$rent, statistic = mean, null = 800, alt = "greater", seed = 28732)
+```
+
+## Other helper functions
+
+For future use...
+
+```{r load-one-cat-funcs}
+source("https://stat.duke.edu/courses/Fall15/sta112.01/code/one_cat_boot.R")
+source("https://stat.duke.edu/courses/Fall15/sta112.01/code/one_cat_test.R")
+```
+
+# Testing for independence
+
+## Is yawning contagious?
+
+<div class="question">
+Do you think yawning is contagious?
+</div>
+
+![empirical](figures/yawn1.png)
+![empirical](figures/yawn2.png)
+
+## Is yawning contagious?
+
+An experiment conducted by the MythBusters tested if a person can be subconsciously influenced into yawning if another person near them yawns.
+
+http://snagplayer.video.dp.discovery.com/614929/snag-it-player.htm?auto=no
+
+## Study description
+
+In this study 50 people were randomly assigned to two groups: 34 to a group where a person near them yawned (treatment) and 16 to a control group where they didn't see someone yawn (control).
+
+```{r echo=FALSE}
+mb_yawn <- read.csv("https://stat.duke.edu/~mc301/data/mb_yawn.csv")
+```
+
+```{r}
+table(mb_yawn$group, mb_yawn$outcome)
+```
+
+## Proportion of yawners
+
+```{r}
+addmargins(table(mb_yawn$group, mb_yawn$outcome))
+```
+
+- Proportion of yawners in the treatment group: $\frac{10}{34} = 0.2941$
+
+- Proportion of yawners in the control group: $\frac{4}{16} = 0.25$
+
+- Our results match the ones calculated on the MythBusters episode.
+
+<div class="question">
+Based on the proportions we calculated, do you think yawning is really contagious, i.e. are 
+seeing someone yawn and yawning dependent?
+</div>
+
+## Dependence, or another possible explanation?
+
+- The observed differences might suggest that yawning is contagious, i.e. seeing someone yawn 
+and yawning are dependent.
+
+- But the differences are small enough that we might wonder if they might simple be **due to 
+chance**.
+
+- Perhaps if we were to repeat the experiment, we would see slightly different results.
+
+- So we will do just that - well, somewhat - and see what happens.
+
+- Instead of actually conducting the experiment many times, we will \hl{simulate} our results.
+
+## Two competing claims
+
+- ``There is nothing going on." 
+Yawning and seeing someone yawn are **independent**, yawning is not contagious, observed difference in proportions is simply due to chance. $\rightarrow$ Null hypothesis
+
+- ``There is something going on."
+Yawning and seeing someone yawn are **dependent**, yawning is contagious, observed difference in proportions is not due to chance. $\rightarrow$ Alternative hypothesis
+
+## Simulation setup
+
+1. A regular deck of cards is comprised of 52 cards: 4 aces, 4 of numbers 2-10, 4 jacks, 4 queens, and 4 kings.
+
+2. Take out two aces from the deck of cards and set them aside.
+
+3. The remaining 50 playing cards to represent each participant in the study:
+    - 14 face cards (including the 2 aces) represent the people who yawn.
+    - 36 non-face cards represent the people who don't yawn.
+
+## Running the simulation
+
+1. Shuffle the 50 cards at least 7 times* to ensure that the cards counted out are from a random process.
+
+2. Count out the top 16 cards and set them aside. These cards represent the people in the control group.
+
+3. Out of the remaining 34 cards (treatment group) count the \red{number of face cards} (the number of people who yawned in the treatment group).
+
+4. Calculate the difference in proportions of yawners (treatment - control), and plot it 
+on the board.
+
+5. Mark the difference you find on the dot plot.
+
+*http://www.dartmouth.edu/~chance/course/topics/winning_number.html*
+
+## Checking for independence
+
+<div class="question">
+Do the simulation results suggest that yawning is contagious, i.e. does seeing someone yawn 
+and yawning appear to be dependent?
+</div>
+
+```{r echo = FALSE, fig.align='center',fig.width=7, fig.height=3}
+load(url("https://stat.duke.edu/~mc301/R/fun/inference.RData"))
+inference(y = outcome, x = group, data = mb_yawn, statistic = "proportion",
+          type = "ht", null = 0, alternative = "greater", method = "simulation",
+          success = "yawn", order = c("treatment", "control"), show_eda_plot = FALSE)
+```
+
+##
+
+<div class="app">
+**Application exercise 10:**
+
+Write a function that conducts a randomization test as described above for two categorical variables. Run the function for the yawning dataset. Comminicate with other teams to match your answers for a given seed.
+
+</div>
