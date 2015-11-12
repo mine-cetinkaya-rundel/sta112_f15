@@ -15,3 +15,7 @@
 Private/
 mc301@stat.duke.edu
 *.dropbox
+*.pptx
+.Rproj.user
+*Key*.Rmd
+*Key*.html
