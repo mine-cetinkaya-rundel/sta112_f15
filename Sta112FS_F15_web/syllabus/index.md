@@ -119,7 +119,7 @@ no make ups for presentations.
 
 * Regrade requests must be made within 3 days of when the assignment is 
 returned, and must be submitted in writing. These will be honored if points 
-were tallied incorrectly, or if you feel your answer is correct but it was 
+were tallied incorrectly, or if your answer is correct but it was 
 marked wrong. No regrade will be made to alter the number of points 
 deducted for a mistake. There will be no grade changes after the final exam.
 

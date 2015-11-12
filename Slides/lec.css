@@ -12,17 +12,17 @@
 .syntax {
     background-color: #8ECBEA;
     color: white;
-    padding: 20px;
+    padding: 10px;
     font-family: "Courier New", Courier, monospace;
     font-style: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .question {
     background-color: #D4E5F0;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 5px;
     font-size: 16pt;
+    margin: 5px;
 }
 
 .app {
@@ -32,4 +32,8 @@
     font-style: bold;
     margin-bottom: 20px;
     font-size: 16pt;
+}
+
+pre {
+  margin-bottom: 0px;
 }
