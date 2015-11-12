@@ -1,0 +1,54 @@
+---
+title: "Functionalized inference"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Tasks
+
+#### 1. Write a function
+
+Write a function with the inputs `data` (a vector of the observed data), `null` (null value), 
+`alternative` (the alternative hypothesis, options: less than, greater than, not equal to), 
+`success` (level of the categorical variable to be considered a success), `seed` (the seed to 
+be set). As an output, the function should report the null hypothesis, the alternative 
+hypothesis, a summary of the dataset, the observed sample statistic, the p-value, and the 
+simulated null distribution.
+
+#### 2. Test your function
+
+Confirm that your function is working properly using the earlier dataset/hypothesis test 
+on livery donor surgery complications. 
+
+#### 3. Conduct inference with your function
+
+One of the earliest examples of behavioral asymmetry is a preference in humans for turning 
+the head to the right, rather than to the left, during the final weeks of gestation and for the 
+first 6 months after birth.This is thought to influence subsequent development of perceptual 
+and motor preferences. A study of 124 couples found that 64.5% turned their heads to the right 
+when kissing. Do these data provide convincing evidence that majority of couples turn their 
+heads to the right when kissing? Use the function you created earlier to conduct the 
+appropriate hypothesis test. You can download the dataset at
+https://stat.duke.edu/~mc301/data/kissing.html.
+
+## Submission instructions
+
+Your submission should be an R Markdown file in your (new) team App Ex repo, in a folder 
+called `AppEx_07`.
+
+## Due date
+
+Thursday, Oct 22, begginning of class
+
+## Watch out for...
+
+... merge conflics on GitHub -- you're working in the same repo!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

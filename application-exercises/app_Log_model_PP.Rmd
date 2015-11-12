@@ -1,0 +1,81 @@
+---
+title: "Modeling log transformed prices of Paris Paintings"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Task
+
+#### Price vs. some binary variable:
+- Fit a model predicting `log(price)` from one of the binary variables
+in the dataset.
+- Write the linear model, in the form $\widehat{y} = b_0 + b_1 x$ but using
+the actual variables instead of $y$ and $x$, and using the estimated coefficients
+using $b_0$ and $b_1$.
+- Interpret the slope and the intercept.
+- Calculate and interpret $R^2$.
+
+#### Price vs. some numerical variable:
+- Fit a model predicting `log(price)` from one of the numerical variables
+in the dataset.
+- Write the linear model, same as above.
+- Interpret the slope and the intercept.
+- Calculate and interpret $R^2$.
+
+#### Price vs. material:
+- Recreate the recoding of the material variable: `mat_recode` (from class)
+- Fit a model predicting `log(price)` from `mat_recode`.
+- Write the linear model, same as above.
+- Interpret the slopes and the intercept.
+- Calculate and interpret $R^2$.
+- Paintings on which material type are predicted to be the most expensive?
+
+#### Synthesis: 
+At the end write one synthesis paragraph comparing your models and 
+determine which model does the best job in explaining the variability in prices
+of paintings. Your interpretations should be in context of the data, which means
+you need to understand the context of your data. Thankfully your data expert will
+be available to answer questions on Piazza! (But don't leave them till the last
+minute.)
+
+## Tip
+
+Keep interpretations concise!
+
+## Accessing the data
+
+- Codebook: https://stat.duke.edu/courses/Fall15/sta112.01/data/paris_paintings.html
+
+- Go to the [Resources on Sakai](https://sakai.duke.edu/portal/site/a91015e2-86df-49b6-9c16-e83a9ca5da66/page/fb4fe022-ccfe-4806-a4ff-4d73fdb1bf08) and download `paris_paintings.csv`
+
+- Upload this file to RStudio Server
+
+- Load using the following (make sure data file is in the correct working
+directory):
+
+```{r eval=FALSE}
+pp <- read.csv("paris_paintings.csv", stringsAsFactors = FALSE) %>%
+  tbl_df()
+```
+
+## Submission instructions
+
+Your submission should be an R Markdown file in your team App Ex repo, in a folder 
+called `AppEx_04`.
+
+## Due date
+
+Thursday, Sep 24, begginning of class
+
+## Watch out for...
+
+... merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

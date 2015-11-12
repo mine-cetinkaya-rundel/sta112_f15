@@ -1,0 +1,46 @@
+---
+title: "Is yawning contagious?"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+### Randomization testing 
+
+An experiment conducted by the MythBusters tested if a person can be subconsciously influenced 
+into yawning if another person near them yawns. Data from this experiment are provided below.
+Write a function that conducts a randomization test for evaluating whether yawning is
+contagious. Run the function, and comminicate with other teams to match your answers for 
+a given seed.
+
+#### Tips
+
+Write a function that is versatile so that you can use it for other data in the future.
+
+Consider starting with functions provided in class for one variable inference.
+
+### Accessing the data
+
+Load using the following (make sure data file is in the correct working
+directory):
+
+```{r eval=FALSE}
+mb_yawn <- read.csv("https://stat.duke.edu/~mc301/data/mb_yawn.csv")
+```
+
+### Submission instructions
+
+Your submission should be an R Markdown file in your team App Ex repo, in a folder 
+called `AppEx_08`.
+
+### Due date
+
+Friday, Oct 30, 5pm
+
+### Watch out for...
+
+merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

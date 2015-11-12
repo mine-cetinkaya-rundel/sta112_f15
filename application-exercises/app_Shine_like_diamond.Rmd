@@ -1,0 +1,42 @@
+---
+title: "Shine bright like a diamond"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+Create an interactive scatterplot of two numerical variables in the `diamonds`
+dataset. The variables should be able to be selected from a drop down menu.
+
+Then, add functionality to add a categorical variable to color the points with.
+This variable should also be able to be selected from a drop down menu.
+
+#### Tips
+
+First make a static version of a plot so that you develop the `ggplot2` code. Then
+build the app.
+
+### Accessing the data
+
+Once the `ggplot2` package is loaded, you can load the dataset with
+
+```{r eval=FALSE}
+data(diamonds)
+```
+
+### Submission instructions
+
+Your submission should be an R Markdown file in your team App Ex repo, in a folder 
+called `AppEx_10`.
+
+### Due date
+
+Friday, Nov 17, by class
+
+### Watch out for...
+
+merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

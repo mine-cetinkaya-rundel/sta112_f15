@@ -1,0 +1,77 @@
+---
+title: "Exploring the CLT via simulation"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+This application exercise explores the Central Limit Theorem (for means)
+via simulation.
+
+### Tasks
+
+1. Load the following dataset:
+
+```{r}
+pops <- read.csv("https://stat.duke.edu/~mc301/data/pops.csv")
+```
+
+Assume each column of this dataset represents a population. Each team will work 
+with one of the populations (columns):
+
+- DasCrew: normal (`normal`)
+- MeanGirls: somewhat right skewed (`some_rs`)
+- StatSheep: very left skewed (`very_ls`)
+- TheStatian: some wonky distribution (`wonky`)
+
+2. Treat the column assigned to you as your distribution, and create sampling
+distributions of sample means from samples of sizes
+
+- $n = 10$
+- $n = 50$
+- $n = 200$
+
+Use 15,000 samples.
+
+Note that sampling distributions are created by taking random samples, with
+replacement, from the original population. (Just like the bootstrap sample,
+except from the population instead of a sample.)
+
+Make histograms and normal probability plots of these distributions. You should know
+how to make histograms by now, and remember from the slides that
+you can make normal probability plots using
+
+```{r eval=FALSE}
+ggplot(data = name_of_dataframe, aes(sample = name_of_variable)) +
+  geom_point(stat = "qq")
+```
+
+
+3. Describe the shapes of these distributions, and calculate the centers (mean) 
+and the spreads (standard deviation). Compare these to shapes, centers, of spreads 
+of parent population distributions from (1).
+
+4. [Optional] If time allows (i.e. your team finishes before others), repeat the same 
+exercise with the other populations (columns) as well.
+
+### Tips
+
+You do not need to write a function, but if you do, it will be really easy to
+repeat for other sample sizes (or other populations).
+
+### Submission instructions
+
+Your submission should be an R Markdown file in your team App Ex repo, in a folder 
+called `AppEx_09`.
+
+### Due date
+
+End of class today
+
+### Watch out for...
+
+merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

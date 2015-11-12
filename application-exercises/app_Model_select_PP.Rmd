@@ -1,0 +1,85 @@
+---
+title: "Selecting models for Paris Paintings"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Task: Fit models that include both main and interaction effects and do model selection. 
+
+#### Breaking it down:
+
+1. Decide on a subset of variables to consider for your analysis. Think 
+about it as focusing on certain aspects of the price determination, as opposed to 
+all aspects. Talk to the data expert for guidance on which variables pertain to
+specific aspects of paintings.
+    - You're allowed a maximum of 10 total variables to consider, including
+    interactions.
+
+2. Decide among these which variables might make sense to interact. Once again, you'll
+need expert guidance on this. Remember, we consider interactions when variables might 
+behave differently for various levels of another variable. Some interactions of potential
+interest are:
+
+    - School of painting & landscape variables: `school_pntg` & `landsALL` / `lands_figs` /
+    `lands_ment`
+    - Landscapes & paired paintings: `landsALL` / `lands_figs` / `lands_ment` & `paired`
+    - Other artists & paired paintings: `othartist` & `paired`
+    - Size & paired paintings: `surface` & `paired`
+    - Size & figures: `surface` & `figures` / `nfigures`
+    - Dealer & previous owner: `dealer` & `prevcoll`
+    - Winning bidder & prevcoll: `endbuyer` & `prevcoll`
+    - Winning bidder & artist living: `winningbiddertype` & `artistliving`
+
+This is not an exhaustive list, so you might come up with others.
+
+3. Use backwards elimination to do model selection. Make sure to show 
+each step of decision (though you don't have to interpret models at each stage).
+    - Provide interpretations for the slopes for the final model you arrive at 
+    and create at least one visualization that supports your narrative.
+
+**Bonus:** You can also get creative with new / composite variables. 
+
+#### Weekend milestone: 
+
+Check in with Sandra on Piazza about which variables make sense to consider 
+together, interact, etc. to tell a coherent story about the prices of these 
+paintings. At least 1 post per team by Sunday evening. Take advantage of this
+resource for building meaningful models and interpretations!
+
+## Accessing the data
+
+- Codebook: https://stat.duke.edu/courses/Fall15/sta112.01/data/paris_paintings.html
+
+- Go to the [Resources on Sakai](https://sakai.duke.edu/portal/site/a91015e2-86df-49b6-9c16-e83a9ca5da66/page/fb4fe022-ccfe-4806-a4ff-4d73fdb1bf08) and download `paris_paintings.csv`
+
+- Upload this file to RStudio Server
+
+- Load using the following (make sure data file is in the correct working
+directory):
+
+```{r eval=FALSE}
+pp <- read.csv("paris_paintings.csv", stringsAsFactors = FALSE) %>%
+  tbl_df()
+```
+
+## Submission instructions
+
+Your submission should be an R Markdown file in your team App Ex repo, in a folder 
+called `AppEx_05`.
+
+## Due date
+
+Thursday, Sep 29, beg of class
+
+## Watch out for...
+
+merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

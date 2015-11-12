@@ -1,0 +1,93 @@
+---
+title: "Inference for a proportion"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Tasks
+
+### 1. Organ donors
+
+Re-write the code from the organ donors example from class to
+
+- use as few hard coded arguments as possible (the ultimate 
+goal is to be able to re-use the code with little or no modification 
+for the next dataset/hypothesis test)
+- use 15,000 simulations
+- plot the null distribution as a histogram
+- calculate the p-value in R (as opposed to counting number of simulations off of plot)
+- write up the conclusion based on the new p-value (and make sure your interpretation/
+conlusion is in context of the data and the research question)
+    - use inline R code to report the p-value in the text (if you're not sure how,
+    see the "Inline R code" section at http://rmarkdown.rstudio.com)
+
+For reference, here is the organ donors example:
+
+>People providing an organ for donation sometimes seek the help of a special "medical 
+>consultant". These consultants assist the patient in all aspects of the surgery, with 
+>the goal of reducing the possibility of complications during the medical procedure and 
+>recovery. Patients might choose a consultant based in part on the historical 
+>complication rate of the consultant's clients. 
+>
+>One consultant tried to attract patients by noting that the average complication rate 
+>for liver donor surgeries in the US is about 10%, but her clients have only had 3 
+>complications in the 62 liver donor surgeries she has facilitated. She claims this is 
+>strong evidence that her work meaningfully contributes to reducing complications (and 
+>therefore she should be hired!).
+
+and here is the code we developed in class:
+
+```{r eval=FALSE}
+sim_dist <- data.frame(p_hat_sim = rep(NA, 100))
+for (i in 1:100){
+  sim <- sample(outcomes, size = 62, prob = c(0.1, 0.9), replace = TRUE)
+  p_hat_sim <- sum(sim == "complication") / length(sim)
+  sim_dist$p_hat_sim[i] <- p_hat_sim
+}
+
+ggplot(sim_dist, aes(x = p_hat_sim)) + 
+  geom_dotplot()
+```
+
+### 2. Planned Parenthood funding
+
+A September 2015 [Pew Research report](http://www.people-press.org/2015/09/28/majority-says-any-budget-deal-must-include-planned-parenthood-funding/) states
+
+> The latest national poll by the Pew Research Center, conducted Sept. 22-27 among 
+> 1,502 adults, finds that 60% say that any budget deal must maintain funding for Planned 
+> Parenthood, while 32% say that any agreement must eliminate funding for the organization.
+
+The title of this report is "Majority Says Any Budget Deal Must Include Planned Parenthood 
+Funding".
+
+Do these data provide convincing (statistically significant) evidence for this title?
+
+Answer this question using the code you developed in the previous exercises with
+as little modification as possible. As you are working on this exercise, you might
+find that you need to go back and improve your code to eliminate hardcoded objects.
+
+As usual, report a p-value and state your conclusion in context of the data and the 
+research question. Once again, use inline R code for incorporating the p-value in
+the text.
+
+## Submission instructions
+
+Your submission should be an R Markdown file in your (new) team App Ex repo, in a folder 
+called `AppEx_06`.
+
+## Due date
+
+Tuesday, Oct 20, begginning of class
+
+## Watch out for...
+
+... merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.

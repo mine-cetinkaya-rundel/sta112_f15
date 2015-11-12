@@ -1,0 +1,71 @@
+---
+title: "Modeling prices of Paris Paintings - a simple approach (first)"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Task
+
+Your main goal is to model the relationship between various variables in the dataset
+and price of paintings. For this application exercise you are asked to stick
+to models with one explanatory variable.
+
+- Model fitting:
+    - Try at least 5 different models, that is at least 5 different explanatory
+variables.
+    - Make sure some are categorical and some are numerical.
+    - **Extra credit:** For the adventorous... Re-level at least one of your 
+    variables, e.g. combine a few levels into one, or turn a numerical variable into a 
+    categorical variable. When doing this, do not overwrite the original variable, but 
+    instead create a new variable. *Hint:* `plyr` package: `revalue()` or 
+    `mapvalues()` or `car` package: `recode()` might be useful, but there are other
+    ways of accomplishing this too.
+
+- Interpretations:
+    - Interpret the slope and the intercept of each model.
+    - Interpret the $R^2$ of each model.
+
+- Synthesis: At the end write one synthesis paragraph comparing your models and 
+determine which model does the best job in explaining the variability in prices
+of paintings. Your interpretations should be in context of the data, which means
+you need to understand the context of your data. Thankfully your data expert will
+be available to answer questions on Piazza! (But don't leave them till the last
+minute.)
+
+## Accessing the data
+
+- Codebook: https://stat.duke.edu/courses/Fall15/sta112.01/data/paris_paintings.html
+
+- Go to the [Resources on Sakai](https://sakai.duke.edu/portal/site/a91015e2-86df-49b6-9c16-e83a9ca5da66/page/fb4fe022-ccfe-4806-a4ff-4d73fdb1bf08) and download `paris_paintings.csv`
+
+- Upload this file to RStudio Server
+
+- Load using the following (make sure data file is in the correct working
+directory):
+
+```{r eval=FALSE}
+pp <- read.csv("paris_paintings.csv", stringsAsFactors = FALSE) %>%
+  tbl_df()
+```
+
+## Submission instructions
+
+Your submission should be an R Markdown file in your team App Ex repo, in a folder 
+called `AppEx_03`.
+
+## Due date
+
+Tuesday, Sep 22, beg of class
+
+## Watch out for...
+
+merge conflics on GitHub -- you're working in the same repo now!
+
+Issues will arise, and that's fine! Commit and push often, and ask questions
+when stuck.
