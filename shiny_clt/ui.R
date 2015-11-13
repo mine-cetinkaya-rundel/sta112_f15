@@ -1,12 +1,14 @@
-# load data
+# Load data ---------------------------------------------------------
 pops <- read.csv("data/pops.csv")
 
+
+# Begin ui definition -----------------------------------------------
 fluidPage(
   
-  # App title
+  # App title -------------------------------------------------------
   titlePanel("Simulating the Central Limit Theorem"),
   
-  # Sidebar 
+  # Sidebar ---------------------------------------------------------
   sidebarLayout(
     sidebarPanel(
       
@@ -16,15 +18,16 @@ fluidPage(
                   choices = names(pops)
                   ),
       
+      # Horizontal line separating population and sample input
       hr(),
       
-      # Select sample size
+      # Input sample size
       numericInput("n",
                    "Sample size:",
                    min = 1,
                    value = 10),
       
-      # Select number of samples
+      # Slide to number of samples
       sliderInput("n_sim",
                   "Number of samples:",
                   min = 1000,
@@ -33,7 +36,7 @@ fluidPage(
                   value = 5000)
     ),
     
-    # Main panel
+    # Main panel ----------------------------------------------------
     mainPanel(
       
       # Print population distribution summary statistics
@@ -52,6 +55,5 @@ fluidPage(
       plotOutput("samplingPlot")
       
     )
-  )
-  
+  ) 
 )
