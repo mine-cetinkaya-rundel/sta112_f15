@@ -25,7 +25,7 @@ All analyses must be done in RStudio. If you are using a dataset that comes in a
 *Reusing datasets from class:* Do not reuse datasets used in examples / homework in the
 class.
 
-### Project Proposal - due Nov 20 at 5pm
+### Project Proposal - due Nov 20 by 5pm
 
 By Nov 20 you must turn in a draft of the introduction section of your project. This introduction
 should introduce your general research question (this should include your hypothesized answer) and
