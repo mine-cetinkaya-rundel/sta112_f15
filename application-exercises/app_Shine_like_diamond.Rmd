@@ -7,9 +7,9 @@ output:
 ---
 
 Create a scatterplot of two numerical variables in the `diamonds` dataset. This should be an 
-interactive plot such that the user selects the variable to be placed on the x and y axes from 
-a drop down menu. You can place that drop down menu on the sidebar (like on the class example), 
-or feel free to get creative with it...
+interactive plot created with `shiny` such that the user selects the variable to be placed on 
+the x and y axes from a drop down menu. You can place that drop down menu on the sidebar 
+(like in the class example), or feel free to get creative with it...
 
 Then, add functionality to color the points on the scatterplot by a categorical variable
 in the dataset. The user should also be able to choose the categorical variable from a 
@@ -21,7 +21,7 @@ drop down menu.
 are numerical.
 
 - Then, first make a static version of a plot so that you develop the `ggplot2` code. Then
-work on building the app.
+work on building the app by wrapping it in `shiny` code.
 
 - Feel free to use whatever code from the class demo you find is useful / relevant. Code
 is available [here](https://github.com/mine-cetinkaya-rundel/sta112_f15/tree/master/shiny_clt).
@@ -41,7 +41,7 @@ called `AppEx_10`.
 
 ### Due date
 
-Friday, Nov 17, by class
+Tuesday, Nov 17, by class
 
 ### Watch out for...
 
