@@ -26,3 +26,4 @@ venue <- page %>%
 # put fields into a data frame --------------------------------------
 
 blue_devils_1415 <- data.frame(date, opponent, venue)
+
