@@ -23,8 +23,9 @@ Week 10,10/27/15,Wrap up one var inf + Testing for independence <a href='post/sl
 Week 11,11/3/15,"CLT + CLT based inference, Pt 1 <a href='post/slides/deck16.html'>[slides]</a> <a href='post/slides/deck16H.html'>[handout]</a>",<a href='post/app_ex/app_CLT_simulate.html'>Exploring the CLT via simulation</a>,
 ,11/5/15,"CLT based inference, Pt 2 <a href='post/slides/deck17.html'>[slides]</a> <a href='post/slides/deck17H.html'>[handout]</a>",,
 Week 12,11/10/15,"CLT based inference, Pt 3 <a href='post/slides/deck18.html'>[slides]</a> <a href='post/slides/deck18H.html'>[handout]</a>",,
-,11/12/15,Interactive visualizations <a href='post/slides/deck19.html'>[slides]</a> <a href='post/slides/deck19H.html'>[handout]</a>,"<a href=""post/app_ex/app_Shine_like_diamond.html"">Shine bright like a diamond</a>",<a href='post/hw/HW3.html'>HW 3</a> (due by class)
-Week 13,11/17/15,Interactive visualizations,,
+,11/12/15,"Interactive visualizations with Shiny, Pt. 1 <a href='post/slides/deck19.html'>[slides]</a> <a href='post/slides/deck19H.html'>[handout]</a>","<a href=""post/app_ex/app_Shine_like_diamond.html"">Shine bright like a diamond</a>",<a href='post/hw/HW3.html'>HW 3</a> (due by class)
+Week 13,11/17/15,"Interactive visualizations with Shiny, Pt. 2 <a href='post/slides/deck20.html'>[slides]</a> <a href='post/slides/deck20H.html'>[handout]</a>",,
+,,"Guest speaker: <a href=""http://people.duke.edu/~abb30/"">Aaron Berdanier</a>",,
 ,11/19/15,Scraping data off the web,,
 ,11/20/15,,,"<a href=""post/projects/final-project.html"">Final project proposal</a> by 5pm"
 Week 14,11/24/15,Bayesian inference,,HW 4
