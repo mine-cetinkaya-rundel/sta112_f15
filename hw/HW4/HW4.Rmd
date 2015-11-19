@@ -1,0 +1,61 @@
+---
+title: "HW 4 - Go (get some data) Blue Devils!"
+output:
+  html_document:
+    highlight: pygments
+    theme: flatly
+    css: ../hw.css
+---
+
+```{r opts, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+![blue_devils](Duke_Blue_Devils.jpg)
+
+## Instructions
+
+1. Start with your repo for this assignment
+    - located at [organization](https://github.com/Sta112FS-Fall2015) for this class
+    - name contains HW 4 and your name
+    
+Clone this repo in your local directory on `gort`. (Remember, the 
+address is http://gort.stat.duke.edu:8787/.)
+
+2. Edit the README.md to include some relevant information about the
+repository, commit, and push. (This is just to check everything
+is working fine, and you know what you're doing.)
+
+3. Open a new R Markdown file, name it the same name as your repository,
+and save it.
+
+4. Include answers to all exercises in your R Markdown file. Your
+answers should always include any summary and/or plot you use to answer
+that particular question.
+
+## Tasks
+
+### Part 1: Harvest data
+
+Use the `rvest` package to grab data (at a minimum) from the last fieve seasons of
+the Duke basketball team. Starter code at XXX. We'll start with this in class,
+with the 2014-2015 season. The data for this season is at http://goduke.statsgeek.com/basketball-m/seasons/season-stats.php?season=2014-15.
+
+**Tips\:** 
+
+- Do it for one season first, then think about automating it over the other
+seasons (i.e. pages).
+- Note that you will need to add an additional field to what is on the HTML
+table that identifies the season.
+
+
+### Part 2: Create an interactive visualization of the data
+
+Use the `shiny` package to create an interactive visualization of these data. Minimum
+requirements are drop down menus to choose variables.
+
+### Other helpful packages
+
+Other helpful packages are `ggplot2` and `dplyr` as usual, as well as `stringr` and
+`lubridate`. You can, of course, use any pakcages that you want, but these might be 
+sufficient.
