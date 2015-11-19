@@ -1,0 +1,204 @@
+---
+title: "Sta112FS <br> 21. Scraping data off the web"
+author: "Dr. Çetinkaya-Rundel"
+date: "November 19, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(rvest)
+library(gridExtra)
+```
+
+# Agenda
+
+## Agenda
+
+- Screen scraping
+
+- Web APIs
+    
+- **Due Tuesday:** HW 4
+
+# Scraping the web
+
+## Scraping the web: what? why?
+
+- Increasing amount of data is available on the web.
+- These data are provided in an unstructured format: you can always copy&paste, but it's 
+time-consuming and prone to errors.
+- Web scraping is the process of extracting this information automatically and transform it into 
+a structured dataset.
+- Two different scenarios:
+    - Screen scraping: extract data from source code of website, with html parser (easy) or 
+    regular expression matching (less easy).
+    - Web APIs (application programming interface): website offers a set of structured http 
+    requests that return JSON or XML files.
+- Why R? It includes all tools necessary to do web scraping, familiarity, direct analysis of data... But python, perl, java are also efficient tools.
+
+# Screen scraping
+
+## Top 250 movies on IMDB
+
+<div class="centered" style="margin-top: 1em;">
+Take a look at the source code, look for the tag `table` tag:
+<br>
+http://www.imdb.com/chart/top
+<br>
+![imdb_top](imdb_top_250.png)
+</div>
+
+## Useful R libraries
+
+- `rvest`: Easily harvest (scrape) web pages
+
+- `stringr`: Make it easier to work with strings
+
+- `dplyr`: A Grammar of Data Manipulation
+
+```{r message=FALSE}
+library(rvest)
+library(stringr)
+library(dplyr)
+```
+
+## `rvest`
+
+
+
+## SelectorGadget
+
+- SelectorGadget: open source tool that makes CSS selector generation and discovery on complicated sites a breeze
+
+- Install the [Chrome Extension](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb) 
+
+- A box will open in the bottom right of the website. Click on a page element that you would like 
+your selector to match (it will turn green). SelectorGadget will then generate a minimal CSS 
+selector for that element, and will highlight (yellow) everything that is matched by the selector. 
+- Now click on a highlighted element to remove it from the selector (red), or click on an 
+unhighlighted element to add it to the selector. Through this process of selection and rejection, 
+SelectorGadget helps you come up with the perfect CSS selector for your needs.
+
+```{r eval=FALSE}
+vignette("selectorgadget")
+```
+
+## Select and format pieces {.smaller}
+
+```{r}
+page <- read_html("http://www.imdb.com/chart/top")
+
+titles <- page %>%
+  html_nodes(".titleColumn a") %>%
+  html_text()
+
+years <- page %>%
+  html_nodes(".secondaryInfo") %>%
+  html_text() %>%
+  str_replace("\\(", "") %>% # remove (
+  str_replace("\\)", "") # remove )
+  
+scores <- page %>%
+  html_nodes("strong") %>%
+  html_text() %>%
+  tail(-1) # remove first entry that is not a score
+
+imdb_top_250 <- data.frame(title = titles, year = years, score = scores)
+head(imdb_top_250)
+```
+
+## Clean up
+
+May or may not be a lot of work depending on how messy the data are
+
+- Make score numeric
+```{r}
+imdb_top_250$score = as.numeric(as.character(imdb_top_250$score))
+```
+
+- Add a column for rank
+```{r}
+imdb_top_250$rank = as.numeric(row.names(imdb_top_250))
+```
+
+```{r}
+head(imdb_top_250)
+```
+
+## Analyze
+
+See which years have the most movies on the list:
+
+```{r}
+imdb_top_250 %>% 
+  group_by(year) %>%
+  summarise(total=n()) %>%
+  arrange(desc(total)) %>%
+  head(5)
+```
+
+## Analyze
+
+See the 1995 movies
+```{r}
+imdb_top_250 %>% 
+  filter(year==1995)
+```
+
+## Visualize {.smaller}
+
+Plot yearly average scores
+```{r, fig.height=3.5}
+imdb_top_250 %>% 
+  group_by(year) %>%
+  summarise(avg_score = mean(score)) %>%
+  ggplot(aes(y = avg_score, x = as.numeric(as.character(year)))) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    xlab("year")
+```
+
+## Potential challenges
+
+- Unreliable formatting at the source
+- Data broken into many pages
+- ...
+
+Discussion: https://raleigh.craigslist.org/search/apa
+
+# Web APIs
+
+## The rules of the game
+
+- Respect the hosting site's wishes:
+    - Check if an API exists first, or if data are available for download.
+    - Some websites "disallow" scrapers on their robots.txt files.
+    
+- Limit your bandwidth use:
+    - Wait one or more seconds after each hit
+    - Try to scrape websites during off-peak hours
+
+- Scrape only what you need, and just once
+    - When using APIs, read terms and conditions.
+    - The fact that you can access some data doesn't mean you should use it for your research.
+    - Be aware of rate limits.
+
+## Technical details
+
+- Often requires creating an account to get an API key.
+
+- R packages like `jsonlite` will be useful for parsing the JSON data you retrieve.
+
+- We won't focus on this in this class, but I'm happy to point you to resources.
+
+# Go (get some data) Blue Devils!
+
+## HW 4
+
+https://stat.duke.edu/courses/Fall15/sta112.01/post/hw/HW4.html

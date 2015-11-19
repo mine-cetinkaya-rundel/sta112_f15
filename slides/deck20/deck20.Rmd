@@ -1,0 +1,36 @@
+---
+title: "Sta112FS <br> 20. Interactive visualizations in R, Pt. 2"
+author: "Dr. Çetinkaya-Rundel"
+date: "November 17, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+```
+
+## Guest speaker
+
+[Aaron Berdanier](http://people.duke.edu/~abb30/)
+
+PhD candidate in [Forest Ecology](http://sites.duke.edu/upecology/) at Duke University in [Jim Clark's lab](https://sites.nicholas.duke.edu/clarklab/).
+
+## Links to apps
+
+Biodiversity:
+
+- Link to app: http://colab-sbx-346.oit.duke.edu:3838/biodiversity2/
+- Background info: http://colab-sbx-346.oit.duke.edu:3838/biodiversity/
+- Source code: http://github.com/berdaniera/biodiversity/
+
+Other examples:
+
+- Mountaintop mining: http://colab-sbx-348.oit.duke.edu:3838/mountaintopmining/
+- Traveling Salesman: http://toddwschneider.com/posts/traveling-salesman-with-simulated-annealing-r-and-shiny/
+- Snowfall: https://hrbrmstr.shinyapps.io/shinysnowfall/
