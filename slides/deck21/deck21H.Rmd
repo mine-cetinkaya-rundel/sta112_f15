@@ -3,9 +3,8 @@ title: "Sta112FS <br> 21. Scraping data off the web"
 author: "Dr. Çetinkaya-Rundel"
 date: "November 19, 2015"
 output:
-  ioslides_presentation:
+  html_document:
     highlight: pygments
-    widescreen: yes
     css: ../lec.css
 ---
 
@@ -24,7 +23,7 @@ library(gridExtra)
 
 - Web APIs
     
-- **Due Sunday Nov 29 at 5pm:** HW 4
+- **Due Tuesday:** HW 4
 
 # Scraping the web
 
@@ -102,15 +101,13 @@ years <- page %>%
   html_nodes(".secondaryInfo") %>%
   html_text() %>%
   str_replace("\\(", "") %>% # remove (
-  str_replace("\\)", "") %>% # remove )
-  as.numeric()
-
+  str_replace("\\)", "") # remove )
+  
 scores <- page %>%
   html_nodes("strong") %>%
   html_text() %>%
-  tail(-1) %>% # remove first entry that is not a score
-  as.numeric()
-  
+  tail(-1) # remove first entry that is not a score
+
 imdb_top_250 <- data.frame(title = titles, year = years, score = scores)
 head(imdb_top_250)
 ```
@@ -160,12 +157,11 @@ Plot yearly average scores
 imdb_top_250 %>% 
   group_by(year) %>%
   summarise(avg_score = mean(score)) %>%
-  ggplot(aes(y = avg_score, x = year)) +
+  ggplot(aes(y = avg_score, x = as.numeric(as.character(year)))) +
     geom_point() +
     geom_smooth(method = "lm") +
     xlab("year")
 ```
-
 
 ## Potential challenges
 
