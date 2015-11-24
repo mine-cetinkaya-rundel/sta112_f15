@@ -38,8 +38,9 @@ that particular question.
 ### Part 1: Harvest data
 
 Use the `rvest` package to grab data (at a minimum) from the last fieve seasons of
-the Duke basketball team. Starter code at XXX. We'll start with this in class,
-with the 2014-2015 season. The data for this season is at http://goduke.statsgeek.com/basketball-m/seasons/season-stats.php?season=2014-15.
+the Duke basketball team. Starter code at https://github.com/mine-cetinkaya-rundel/sta112_f15/blob/master/rvest/bluedevils.R 
+We'll start with the starter code in class for the 2014-2015 season. The data for 
+this season is at http://goduke.statsgeek.com/basketball-m/seasons/season-stats.php?season=2014-15.
 
 **Tips\:** 
 

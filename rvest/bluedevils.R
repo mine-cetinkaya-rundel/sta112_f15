@@ -2,6 +2,8 @@
 
 library(rvest)
 library(lubridate)
+library(stringr)
+library(dplyr)
 
 # read page with season data ----------------------------------------
 
