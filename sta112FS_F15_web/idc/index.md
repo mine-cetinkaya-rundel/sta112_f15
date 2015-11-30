@@ -207,7 +207,7 @@ for research.
 **Speaker:** Paul Bendich <br>
 Associate Director for Undergraduate Research at iiD
 
-Want a first taste of research on a data science team, and get paid 5K
+**Abstract:** Want a first taste of research on a data science team, and get paid 5K
 for doing so? The Data+ Program meets for ten weeks over the summer.
 Students join small teams working on data-driven problems, often with a
 connection to local companies or civic agencies.
@@ -226,9 +226,21 @@ No meeting
 
 * * * 
 
-#### Week 15 (Nov 30):
+#### Week 15 (Nov 30): North Carolina workforce incentives through statistical modeling
 
 **Host:** Mine Çetinkaya-Rundel
 
+{:.right}
+![Lucy Lu](photos/lucy_lu.png)
+
 **Speaker:** Lucy Lu <br>
 Undergraduate student at Department of Statistical Science
+
+**Abstract:** As part of the Data+ program in the past summer, the Workforce 
+Incentives team has investigated the efficiency of North Carolina’s economic 
+development incentives between 2002 and 2013. The project consisted of 3 stages: 
+data collection, modeling and analysis, and result delivery. To determine the 
+success of incentives at raising county level wages, a variety of policy- and 
+firm-level factors were statistically analyzed using generalized linear models. 
+To study the effect of specific policy variables, methods such as propensity 
+score matching and survival analysis were also explored.
