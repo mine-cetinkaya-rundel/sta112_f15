@@ -1,0 +1,386 @@
+---
+title: "Sta112FS <br> 23. Bayesian inference, Pt. 2"
+author: "Dr. Çetinkaya-Rundel"
+date: "December 1, 2015"
+output:
+  ioslides_presentation:
+    highlight: pygments
+    widescreen: yes
+    css: ../lec.css
+---
+
+```{r set-options, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(rvest)
+library(gridExtra)
+```
+
+# Agenda
+
+## Agenda
+
+- Questions for project + confirm the time of prensentations
+
+- Bayesian vs. frequentist inference
+    
+
+# Bayesian vs. frequentist inference
+
+## Morning after {.small}
+
+<div class="question">
+A study addressed the question of whether the controversial abortion drug RU 486 could be an 
+effective "morning after" contraceptive. The study participants were women who came to a health 
+clinic asking for emergency contraception after having had sex within the previous 72 hours.  
+Investigators randomly assigned the women to receive either RU486 or standard therapy consisting 
+of high doses of the sex hormones estrogen and a synthetic version of progesterone. Of the women 
+assigned to RU486 (T for Treatment), 4 became pregnant. Of the women who received standard 
+therapy (C for Control), 16 became pregnant. How strongly does this information indicate that T 
+is more effective than C?
+</div>
+
+<br><br><br><br>
+
+*Example modified from Don A. Berry’s, Statistics: A Bayesian Perspective, 1995, Ch. 6, pg 15.*
+
+## Framework
+
+- To simplify matters let's turn this problem of comparing two proportions to a one proportion 
+problem: consider only the 20 total pregnancies, and ask how likely is it that 4 pregnancies 
+occur in the T group.
+
+- If T and C are equally effective, and the sample sizes for the two groups are the same, then 
+the probability the pregnancy come from the T group is simply $p = 0.5$.
+
+# Frequentist approach
+
+## Hypotheses
+
+In the frequentist framework we can set up the hypotheses as follows:
+
+- $H_0: p = 0.5$ - No difference, the pregnancy is equally likely to come from the T or C group
+- $H_A: p < 0.5$ - T more effective, the pregnancy is less likely to come from the T group
+
+Note that here $p$ is the probability that a given pregnancy comes from the T group.
+
+## Aside: Binomial distribution
+
+- Useful for calculating the probability of $k$ successes in $n$ trials with probability
+of success $p$.
+
+- P(1 successes in 3 trials, $p = 0.4$) = ${3 \choose 1} \times 0.4^1 \times 0.6^2 = 0.432$
+
+```{r}
+dbinom(x = 1, size = 3, prob = 0.4)
+```
+
+
+## p-value {.smaller .build}
+
+>- $n = 20$, since there are 20 total pregnancies
+>- $p = 0.5$, assuming $H_0$ is true, since we're using a Frequentist approach
+>- $p-value = P(k \le 4)$
+
+>- Using the Binomial distribution: 
+```{r}
+sum(dbinom(0:4, size = 20, p = 0.5))
+```
+
+>- Then, the chances of observing 4 or fewer pregnancies in the T group given that pregnancy was equally likely in the two groups is approximately 0.0059. 
+
+# Bayesian approach
+
+## Hypotheses, i.e. models
+
+>- Begin by delineating each of the models we consider plausible:
+    * Assume that it is plausible that the chances that a pregnancy comes from the T group ($p$) could be 
+<div class="centered" style="margin-top: 1em;">
+10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, or 90%
+</div>
+
+>- Hence we are considering 9 models, not 1 as in the classical (frequentist) paradigm
+
+>- The model for 20% is says that given a pregnancy occurs, there is a 2:8 or 1:4 chance that it will occur in the T group. Similarly, the model for 80% says that given a pregnancy occurs, there is a 4:1 chance that it will occur in the T group.
+
+## Specifying the prior {.smaller .build}
+
+>- Prior probabilities should reflect our state of belief prior to the current experiment.
+
+>- It should incorporate the information learned from all relevant research up to the current point in time, and it should not incorporate information from the current experiment.
+
+>- Suppose my prior probability for each of the 9 models is as presented below:
+
+| Model (p) |  0.1 |  0.2 |  0.3 |  0.4 |  0.5 |  0.6 |  0.7 |  0.8 |  0.9 | Total |
+|-----------|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|
+| Prior     | 0.06 | 0.06 | 0.06 | 0.06 | 0.52 | 0.06 | 0.06 | 0.06 | 0.06 |   1   |
+
+<br>
+
+>- The prior information says the benefit of the treatment is symmetric, that is, it is equally likely to be better or worse than the standard treatment. This arises because the prior is symmetric for values of $p$ greater and less than 0.5. 
+
+>- This prior also specifies that there is a 52% chance that there is no difference between the treatments, as 52% of the prior is on the value $p = 0.5$.
+
+## Likelihood
+
+>- Now we are ready to calculate the P(data | model) for each model considered. 
+
+>- This probability is called the **likelihood**. In this example, this is simply 
+<div class="centered" style="margin-top: 1em;">
+P(data | model) = P(k = 4 | n = 20, p)
+</div>
+
+## Calculating the likelihood {.smaller}
+
+```{r}
+p <- seq(0.1, 0.9, 0.1)
+prior <- c(rep(0.06, 4), 0.52, rep(0.06, 4))
+likelihood <- dbinom(4, size = 20, prob = p)
+```
+
+|           |    0.1|    0.2|    0.3|   0.4|    0.5|   0.6|  0.7|  0.8|  0.9| Total  |
+|:----------|------:|------:|------:|-----:|------:|-----:|----:|----:|----:|---:|
+|prior, P(model)      | 0.06  | 0.06  | 0.060 | 0.06 | 0.5200| 0.06  | 0.06| 0.06| 0.06| 1 |
+|likelihood, P(data\|model) | 0.0898| 0.2182| 0.1304| 0.035| 0.0046| 0.0003| 0| 0| 0|   |
+
+
+```{r echo=FALSE, results='asis'}
+# tab = data.frame(rbind(prior, likelihood = round(likelihood, 4)))
+# names(tab) = p
+# knitr::kable(tab, digits = 4, format = "markdown")
+```
+
+## Posterior {.small}
+
+>-  Once the models are delineated, priors expressed, and data collected, we can use Bayes theorem to calculate the **posterior** probability, i.e. the probability of the model given the data
+<div class="centered" style="margin-top: 1em;">
+P(model | data)
+</div>
+
+>- Recall Bayes theorem:
+\[
+\begin{align*}
+P(model~|~data) &= \frac{P(model~\&~data)}{P(data)} \\
+&= \frac{P(data~|~model) \times P(model)}{P(data)}
+\end{align*}
+\]
+
+## Calculating the posterior {.smaller}
+
+```{r}
+numerator <- prior * likelihood
+denominator <- sum(numerator)
+posterior <- numerator / denominator
+sum(posterior)
+```
+
+|           |    0.1|    0.2|    0.3|   0.4|    0.5|   0.6|  0.7|  0.8|  0.9| Total  |
+|:----------|------:|------:|------:|-----:|------:|-----:|----:|----:|----:|---:|
+|prior, P(model)      | 0.06  | 0.06  | 0.060 | 0.06 | 0.5200| 0.06  | 0.06| 0.06| 0.06| 1 |
+|likelihood, P(data\|model) | 0.0898| 0.2182| 0.1304| 0.035| 0.0046| 0.0003| 0| 0| 0|   |
+|P(data\|model) * P(model)  | 0.0054| 0.0131| 0.0078| 0.0021| 0.0024| 0| 0| 0| 0| 0.0308|
+|posterior, P(model\|data)  | 0.1748| 0.4248| 0.2539| 0.0681| 0.0780| 0.0005| 0| 0| 0| 1|
+
+## Decision making in the Bayesian paradigm
+
+>- The posterior probability that $p = 0.2$ is 42.48%.  This model, $p = 0.2$, has the highest posterior probability.  
+
+>- Notice that these posterior probabilities sum to 1.
+
+>- Also, in calculating them we considered only the data we observed. Data more extreme than observed plays no part in the Bayesian paradigm.
+
+>- Also note that the probability that $p = 0.5$ dropped from 52% in the prior, to about 7.8% in the posterior. This demonstrates how we update our beliefs based on observed data.   
+
+## Prior, likelihood, and posterior visualized {.small}
+
+```{r fig.width = 9, fig.height = 3, echo = FALSE}
+par(mfrow = c(1,3))
+barplot(prior, names.arg = p, las = 2, main = "Prior")
+barplot(likelihood, names.arg = p, las = 2, main = "Likelihood")
+barplot(posterior, names.arg = p, las = 2, main = "Posterior")
+```
+
+## Further synthesis of the Bayesian approach
+
+>- The Bayesian paradigm allows us to make direct probability statements about our models.  
+
+>- We can also calculate the probability that RU486 (the treatment) is more effective than the control treatment.
+
+>- This event corresponds to the sum of the models where $p < 0.5$. By summing the posterior probabilities for these 4 models, we get the probability that RU486 is more effective is  
+\[ 0.1748 + 0.4248 + 0.2539 + 0.0681 = 0.9216 \approx 92.16\% \]
+
+## What if we had more data? {.smaller}
+
+```{r fig.width = 9, fig.height = 3}
+likelihood <- dbinom(4*2, size = 20*2, prob = p)
+numerator <- prior * likelihood
+denominator <- sum(numerator)
+posterior <- numerator / denominator
+```
+
+```{r fig.width = 9, fig.height = 3, echo = FALSE}
+par(mfrow = c(1,3))
+barplot(prior, names.arg = p, las = 2, main = "Prior")
+barplot(likelihood, names.arg = p, las = 2, main = "Likelihood")
+barplot(posterior, names.arg = p, las = 2, main = "Posterior")
+```
+
+## What if we had even more data? {.smaller}
+
+```{r fig.width = 9, fig.height = 3}
+likelihood <- dbinom(4*10, size = 20*10, prob = p)
+numerator <- prior * likelihood
+denominator <- sum(numerator)
+posterior <- numerator / denominator
+```
+
+```{r fig.width = 9, fig.height = 3, echo = FALSE}
+par(mfrow = c(1,3))
+barplot(prior, names.arg = p, las = 2, main = "Prior")
+barplot(likelihood, names.arg = p, las = 2, main = "Likelihood")
+barplot(posterior, names.arg = p, las = 2, main = "Posterior")
+```
+
+# Prediction
+
+## Prediction
+
+>- Often probabilities for parameters are not the quantities of most interest to us.  
+
+>- What we really want to know is what are the chances of particular outcomes for the next observation. 
+
+>- What are the chances the next pregnancy will come from the RU486 (T) group?
+
+## Morning after, continued
+
+>- Next we will calculate the predictive probability for the next pregnancy.
+
+>- By weighting each $p$ by its posterior probability we calculate a weighted average for $p$. 
+
+>- This weighted average is interpreted as the probability that the next pregnancy is from group T, and it is called a **predictive probability**.
+
+## Predictive probabilities {.smaller}
+
+```{r echo=FALSE}
+likelihood <- dbinom(4, size = 20, prob = p)
+numerator <- prior * likelihood
+denominator <- sum(numerator)
+posterior <- numerator / denominator
+```
+
+```{r}
+(predictive <- round(p * posterior,4))
+sum(predictive)
+```
+
+| Model (p)  |   0.1  |   0.2  |   0.3  |   0.4  |   0.5  |   0.6  |   0.7  |   0.8  |   0.9  | Total |
+|------------|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:-----:|
+| prior, P(model)     |  0.06  |  0.06  |  0.06  |  0.06  |  0.52  |  0.06  |  0.06  |  0.06  |  0.06  |   1   |
+| posterior, P(model\|data)  | 0.1748| 0.4248| 0.2539| 0.0681| 0.0780| 0.0005| 0| 0| 0| 1|
+| predictive, p * P(model\|data) | 0.0175 | 0.0850 | 0.0762 | 0.0272 | 0.0390 | 0.0003 | 0.0000 | 0.0000 | 0.0000 | 0.2452      |
+
+## Prediction and utility
+
+>- We predict that the next pregnancy we observe will come from the T group with ~24.5% chance.
+
+>- Using these predictive probabilities, one could perform a decision analysis on whether RU486 or the standard treatment would yield the higher utility.
+
+# Continuous parameter space
+
+## Discrete to continuous
+
+>- In the previous example we considered only 9 possible values for $p$.
+
+>- Using calculus, we can consider any value of p between 0 and 1, $0 \le p \le 1$.
+
+>- This simply requires us to use integration rather than summations in the calculations presented above.
+
+## The uniform distribution as the prior
+
+* The continuous uniform distribution is a family of symmetric probability distributions such that for each member of the family, all intervals of the same length on the distribution's support are equally probable. 
+
+* The support is defined by the two parameters, $a$ and $b$, which are its minimum and maximum values.
+
+\[
+  f(x)=\begin{cases}
+  \frac{1}{b - a} & \mathrm{for}\ a \le x \le b, \\[8pt]
+  0 & \mathrm{for}\ x<a\ \mathrm{or}\ x>b
+  \end{cases} 
+\]
+
+* Let's assume a uniform prior on $p$, where $a = 0$ and $b = 1$.
+
+## Prior, likelihood, and posterior
+
+>- Prior: $f(p) = 1$
+
+>- Likelihood: $f(k | p) = {n \choose k} p^k (1-p)^{n-k}$
+
+>- Posterior = Prior x Likelihood
+\[
+\begin{align*}
+f(p | k) &= f(p) \times f(p | k) \\
+&\propto 1 \times {n \choose k} p^k (1-p)^{n-k} \\
+&\propto p^k (1-p)^{n-k}
+\end{align*}
+\]
+
+## Prior, likelihood, and posterior visualized
+
+When $n = 20$ and $k = 4$
+
+```{r fig.width = 9, fig.height = 4, echo=FALSE, message=FALSE}
+library(openintro)
+p = seq(0, 1, 0.001)
+prior = rep(1, length(p))
+plot(prior ~ p, type = "l", ylim = c(0, 5), axes = FALSE, ylab = "")
+axis(1)
+axis(2)
+posterior_20 = dbeta(p, 5, 17)
+lines(posterior_20 ~ p, col = COL[1], lty = 2)
+legend("topright", c("prior", "posterior"), col = c(1, COL[1]), lty = c(1,2), bty = "n")
+```
+
+## What if we had more data?
+
+When $n = 40$ and $k = 8$
+
+```{r fig.width = 9, fig.height = 4, echo=FALSE, message=FALSE}
+p = seq(0, 1, 0.001)
+prior = rep(1, length(p))
+plot(prior ~ p, type = "l", ylim = c(0, 6.4), axes = FALSE, ylab = "")
+axis(1)
+axis(2)
+posterior_40 = dbeta(p, 9, 33)
+lines(posterior_40 ~ p, col = COL[2], lty = 2)
+legend("topright", c("prior", "posterior"), col = c(1, COL[2]), lty = c(1,2), bty = "n")
+```
+
+## What if we had even more data?
+
+When $n = 200$ and $k = 40$
+
+```{r fig.width = 9, fig.height = 4, echo=FALSE, message=FALSE}
+p = seq(0, 1, 0.001)
+prior = rep(1, length(p))
+plot(prior ~ p, type = "l", ylim = c(0, 14.5), axes = FALSE, ylab = "")
+axis(1)
+axis(2)
+posterior_200 = dbeta(p, 41, 161)
+lines(posterior_200 ~ p, col = COL[4], lty = 2)
+legend("topright", c("prior", "posterior"), col = c(1, COL[4]), lty = c(1,2), bty = "n")
+```
+
+## All together
+
+```{r fig.width = 9, fig.height = 4, echo=FALSE, message=FALSE}
+p = seq(0, 1, 0.001)
+prior = rep(1, length(p))
+plot(prior ~ p, type = "l", ylim = c(0, 14.5), axes = FALSE, ylab = "")
+axis(1)
+axis(2)
+lines(posterior_20 ~ p, col = COL[1], lty = 2)
+lines(posterior_40 ~ p, col = COL[2], lty = 2)
+lines(posterior_200 ~ p, col = COL[4], lty = 2)
+legend("topright", c("prior", "posterior, n = 20", "posterior, n = 40", "posterior, n = 200"), col = c(1, COL[1], COL[2], COL[4]), lty = c(1,2, 2, 2), bty = "n")
+```
